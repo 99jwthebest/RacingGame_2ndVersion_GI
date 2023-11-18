@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-
+        CheckIfCheckpointsCleared();
     }
 
     void CheckIfCheckpointsCleared()
@@ -40,7 +40,9 @@ public class GameManager : MonoBehaviour
 
     void EndRace()
     {
+        Debug.Log("You win, boy!!!!!");
         winMenuUI.SetActive(true);
+        Time.timeScale = 0f;
     }
 
 }
