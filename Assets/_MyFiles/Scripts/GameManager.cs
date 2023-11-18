@@ -14,6 +14,15 @@ public class GameManager : MonoBehaviour
 
     public int currentCheckPoint;
     public int totalAmountCheckpoints;
+    public int currentLaps;
+    public int totalLaps;
+
+    [Space(10f)]
+    [Header("Times For Race")]
+    public int goldTime;
+    public int silverTime;
+    public int bronzeTime;
+
 
     private void Awake()
     {
@@ -34,9 +43,41 @@ public class GameManager : MonoBehaviour
     {
         if(currentCheckPoint >= totalAmountCheckpoints)
         {
+            currentLaps++;
+            currentCheckPoint = 0;
+
+            CheckLaps();
+        }
+    }
+
+    void CheckLaps()
+    {
+        if(currentLaps >= totalLaps)
+        {
             CheckTimeElapsed();
             EndRace();
             CountupTimer.Instance.StopTime();
+        }
+    }
+
+    void CheckTimeElapsed()
+    {
+
+        if(CountupTimer.Instance.GetCurrentTime() < goldTime)
+        {
+            UIManager.instance.SetWinMenuResults("You got Gold!!");
+        }
+        else if(CountupTimer.Instance.GetCurrentTime() < silverTime)
+        {
+            UIManager.instance.SetWinMenuResults("You got Silver!!");
+        }
+        else if(CountupTimer.Instance.GetCurrentTime() < bronzeTime)
+        {
+            UIManager.instance.SetWinMenuResults("You got Bronze!!");
+        }
+        else
+        {
+            UIManager.instance.SetWinMenuResults("You FAILED!!!");
         }
     }
 
@@ -44,21 +85,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("You cleared Checkpoints, boy!!!!!");
         winMenuUI.SetActive(true);
-    }
-
-    void CheckTimeElapsed()
-    {
-
-        if(CountupTimer.Instance.GetCurrentTime() < 15)
-        {
-            UIManager.instance.SetWinMenuResults("You got Gold!!");
-            Debug.Log("You got Gold!!");
-        }
-        else
-        {
-            UIManager.instance.SetWinMenuResults("You FAILED!!!");
-            Debug.Log("You FAILED!!!");
-        }
     }
 
 }

@@ -9,8 +9,11 @@ public class CameraController : MonoBehaviour
 
     public GameObject player;
     private controller_FV pController_FV;
+    private InputManager inputManager;
+
     public GameObject cameraConstraint;
     public GameObject cameraLookAt;
+    public GameObject rearViewCamera;
     public float speed;
     public float defaultFOV = 0f, desiredFOV = 0f;
     [Range(0,5)] public float smoothTime = 0f;
@@ -18,18 +21,21 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
         cameraConstraint = GameObject.FindGameObjectWithTag("CameraConstraint");
         cameraLookAt = GameObject.FindGameObjectWithTag("CameraLookAt");
-        pController_FV = player.GetComponent<controller_FV>();
-        defaultFOV = Camera.main.fieldOfView;
 
+        pController_FV = player.GetComponent<controller_FV>();
+        inputManager = player.GetComponent<InputManager>();
+
+        defaultFOV = Camera.main.fieldOfView;
     }
 
     private void FixedUpdate()
     {
         Follow();
         BoostFOV();
-
+        ActivateRearViewCamera();
     }
 
     private void Follow()
@@ -51,6 +57,11 @@ public class CameraController : MonoBehaviour
 
     private void BoostFOV()
     {
+        if(GetMainCameraState() == false)
+        {
+            return;
+        }
+
         if(pController_FV.nitrousFlag)
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, smoothTime * Time.deltaTime);
         else
@@ -58,4 +69,32 @@ public class CameraController : MonoBehaviour
 
     }
 
+    private void ActivateRearViewCamera()
+    {
+        if (inputManager.rearViewCamera)
+        {
+            SetMainCamera(false);
+            rearViewCamera.SetActive(true);
+        }
+        else
+        {
+            SetMainCamera(true);
+            rearViewCamera.SetActive(false);
+        }
+    }
+
+    private void SetMainCamera(bool state)
+    {
+        GetComponent<Camera>().enabled = state;
+    }
+
+    private bool GetMainCameraState()
+    {
+        if(Camera.main == null)
+        {
+            return false;
+        }
+
+        return GetComponent<Camera>().enabled;
+    }
 }

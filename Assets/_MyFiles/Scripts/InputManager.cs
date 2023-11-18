@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public float horizontal;
     public bool handbrake;
     public bool boosting;
+    public bool rearViewCamera;
 
     private void FixedUpdate()
     {
@@ -18,6 +19,12 @@ public class InputManager : MonoBehaviour
             boosting = true; 
         else 
             boosting = false;
+
+        if(Input.GetKey(KeyCode.R))
+            rearViewCamera = true;
+        else
+            rearViewCamera = false;
+            
 
     }
 
