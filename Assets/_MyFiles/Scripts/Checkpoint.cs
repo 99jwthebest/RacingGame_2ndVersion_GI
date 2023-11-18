@@ -23,7 +23,7 @@ public class Checkpoint : MonoBehaviour
     {
         if(collider.transform.tag == "Player")
         {
-            GameManager.instance.checkPoint++;
+            GameManager.instance.currentCheckPoint++;
         }
     }
 }

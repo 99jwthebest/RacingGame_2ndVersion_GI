@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     public controller_FV pController_FV;
 
+    public GameObject winMenuUI;
 
-    public int checkPoint;
+    public int currentCheckPoint;
+    public int totalAmountCheckpoints;
 
     private void Awake()
     {
@@ -26,6 +28,19 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
 
+    }
+
+    void CheckIfCheckpointsCleared()
+    {
+        if(currentCheckPoint >= totalAmountCheckpoints)
+        {
+            EndRace();
+        }
+    }
+
+    void EndRace()
+    {
+        winMenuUI.SetActive(true);
     }
 
 }
