@@ -34,15 +34,31 @@ public class GameManager : MonoBehaviour
     {
         if(currentCheckPoint >= totalAmountCheckpoints)
         {
+            CheckTimeElapsed();
             EndRace();
+            CountupTimer.Instance.StopTime();
         }
     }
 
     void EndRace()
     {
-        Debug.Log("You win, boy!!!!!");
+        Debug.Log("You cleared Checkpoints, boy!!!!!");
         winMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+    }
+
+    void CheckTimeElapsed()
+    {
+
+        if(CountupTimer.Instance.GetCurrentTime() < 15)
+        {
+            UIManager.instance.SetWinMenuResults("You got Gold!!");
+            Debug.Log("You got Gold!!");
+        }
+        else
+        {
+            UIManager.instance.SetWinMenuResults("You FAILED!!!");
+            Debug.Log("You FAILED!!!");
+        }
     }
 
 }

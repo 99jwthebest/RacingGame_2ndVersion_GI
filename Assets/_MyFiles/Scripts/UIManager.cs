@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     private float startPosition = 199f, endPosition = -19f;
     private float desiredPosition;
 
+    public TextMeshProUGUI winMenuText;
+
 
     private void Awake()
     {
@@ -53,4 +55,10 @@ public class UIManager : MonoBehaviour
     {
         nitrousSlider.value = pController_FV.nitrousValue / 15.6f;
     }
+
+    public void SetWinMenuResults(string winText)
+    {
+        winMenuText.text = winText;
+    }
+
 }

@@ -12,7 +12,7 @@ public class CountupTimer : MonoBehaviour
     [SerializeField]
     private float startingTime = 30f;
     [SerializeField]
-    private float addTimeFromZombie = 10f;
+    private float addTimeFromCheckpoint = 10f;
 
     [SerializeField]
     private TextMeshProUGUI minutesText;
@@ -64,9 +64,9 @@ public class CountupTimer : MonoBehaviour
 
     }
 
-    public void AddTimeFromZombie()
+    public void AddTimeFromCheckpoint()
     {
-        currentTime += addTimeFromZombie;
+        currentTime += addTimeFromCheckpoint;
     }
 
     public void AddTimeFromPickup(int time)
@@ -77,5 +77,10 @@ public class CountupTimer : MonoBehaviour
     public float GetCurrentTime()
     {
         return currentTime;
+    }
+
+    public void StopTime()
+    {
+        Time.timeScale = 0f;
     }
 }
