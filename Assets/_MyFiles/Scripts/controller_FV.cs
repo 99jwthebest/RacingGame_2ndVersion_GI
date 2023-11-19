@@ -57,6 +57,7 @@ public class controller_FV : MonoBehaviour
 
     [Header("DEBUG")]
     public float[] slip = new float[4];
+    public bool driftingLeft, driftingRight;
 
     // Handbrake / Drifting values
     private WheelFrictionCurve forwardFriction, sidewaysFriction;
@@ -415,6 +416,18 @@ public class controller_FV : MonoBehaviour
                 Debug.Log("I am NOT drifting!!!!");
 
             }
+
+
+            if (wheelHit.sidewaysSlip >= 0.3f) 
+                driftingLeft = true;
+            else
+                driftingLeft = false;
+
+            if (wheelHit.sidewaysSlip <= -0.3f)
+                driftingRight = true;
+            else
+                driftingRight = false;
+
 
 
             if (wheelHit.sidewaysSlip < 0) driftFactor = (1 + -inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);

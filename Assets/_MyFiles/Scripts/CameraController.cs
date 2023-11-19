@@ -71,10 +71,10 @@ public class CameraController : MonoBehaviour
 
     private void DriftingCameraAction()
     {
-        //if(pController_FV.playPauseSmoke)
-        //    gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, speed * Time.deltaTime);
-        //else if(pController_FV.)
-        //    gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, speed * Time.deltaTime);
+        if(pController_FV.driftingLeft)
+            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, speed * Time.deltaTime);
+        else if(pController_FV.driftingRight)
+            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, speed * Time.deltaTime);
 
     }
 
