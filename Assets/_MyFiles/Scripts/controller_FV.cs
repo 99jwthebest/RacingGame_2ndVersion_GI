@@ -37,20 +37,19 @@ public class controller_FV : MonoBehaviour
     public GameObject[] wheelMeshes = new GameObject[4];
     public GameObject centerOfMass;
     private Rigidbody rigidBody;
+    public float downForceValue = 50f; // For Zone Ability
     public float handBrakeFrictionMultiplier = 2f; // lower value to drift more, higher value to drift less
     public AnimationCurve enginePower;
     public float maxRPM, minRPM;
-    public float[] gears;
     public float[] gearChangeSpeed;
+    public float[] gears;
 
     [HideInInspector] public int gearNum = 1;
     public float KPH;
     [HideInInspector] public float engineRPM;
     [HideInInspector] public bool reverse = false;
     private float smoothTime = 0.09f;
-    public float downForceValue = 50f;
     public int motorTorque = 200;
-    public float steeringMax = 3f;
     public ParticleSystem[] nitrousSmoke;
 
 

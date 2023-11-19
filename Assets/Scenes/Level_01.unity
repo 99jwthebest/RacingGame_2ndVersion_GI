@@ -20323,6 +20323,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   centerOfMass: {fileID: 0}
+  downForceValue: 10
   handBrakeFrictionMultiplier: 2
   enginePower:
     serializedVersion: 2
@@ -20357,27 +20358,25 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxRPM: 6500
+  maxRPM: 6000
   minRPM: 2000
-  gears:
-  - 2
-  - 1.7
-  - 1.3
-  - 0.9
-  - 0.4
   gearChangeSpeed:
   - 30
   - 55
   - 80
   - 120
   - 180
+  gears:
+  - 2
+  - 1.7
+  - 1.3
+  - 0.9
+  - 0.4
   gearNum: 1
   KPH: 0
   engineRPM: 0
   reverse: 0
-  downForceValue: 10
   motorTorque: 500
-  steeringMax: 10
   nitrousSmoke:
   - {fileID: 919612372}
   - {fileID: 1261185250}
@@ -21121,6 +21120,7 @@ GameObject:
   - component: {fileID: 4632590483081353975}
   - component: {fileID: 3284994021305706473}
   - component: {fileID: 4632590483081353974}
+  - component: {fileID: 4632590483081353977}
   - component: {fileID: 4632590483081353976}
   m_Layer: 0
   m_Name: CarBlack_NewPivot
@@ -21173,6 +21173,7 @@ MonoBehaviour:
   handbrake: 0
   boosting: 0
   rearViewCamera: 0
+  zoneActivated: 0
 --- !u!65 &4632590483081353976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21194,6 +21195,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.72, y: 0.55952036, z: 3.9605322}
   m_Center: {x: 0, y: 0.86, z: -0.01999998}
+--- !u!114 &4632590483081353977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4632590483081353973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2458a348546b642a0b316c21c03698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pController_FV: {fileID: 0}
+  inputManager: {fileID: 0}
 --- !u!33 &4690433085008176690
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public bool handbrake;
     public bool boosting;
     public bool rearViewCamera;
+    public bool zoneActivated;
 
     private void FixedUpdate()
     {
@@ -24,8 +25,11 @@ public class InputManager : MonoBehaviour
             rearViewCamera = true;
         else
             rearViewCamera = false;
-            
 
+        if (Input.GetMouseButton(0))
+            zoneActivated = true;
+        else
+            zoneActivated = false;
     }
 
 }
