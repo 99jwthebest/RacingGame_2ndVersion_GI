@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class CameraController : MonoBehaviour
     public GameObject player;
     private controller_FV pController_FV;
     private InputManager inputManager;
-
-    public GameObject cameraConstraint;
+    
+    [Space(10f)]
+    [Header("Camera Constraints")]
+    public GameObject cameraFront;
+    public GameObject cameraBack;
     public GameObject cameraLookAt;
     public GameObject rearViewCamera;
     public float speed;
@@ -22,7 +26,8 @@ public class CameraController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        cameraConstraint = GameObject.FindGameObjectWithTag("CameraConstraint");
+        cameraFront = GameObject.FindGameObjectWithTag("CameraFront");  // ask professor Li how to find these objects in effecient way
+        cameraBack = GameObject.FindGameObjectWithTag("CameraBack");
         cameraLookAt = GameObject.FindGameObjectWithTag("CameraLookAt");
 
         pController_FV = player.GetComponent<controller_FV>();
@@ -38,7 +43,7 @@ public class CameraController : MonoBehaviour
         ActivateRearViewCamera();
     }
 
-    private void Follow()
+    private void Follow()  // give leave way to have the camera move right left up or down so it looks like it's not fixed on the car.
     {
         if (speed <= 23)
         {
@@ -51,7 +56,7 @@ public class CameraController : MonoBehaviour
 
         //speed = pController_FV.KPH / smoothTime;
 
-        gameObject.transform.position = Vector3.Lerp(transform.position, cameraConstraint.transform.position, speed * Time.deltaTime);
+        gameObject.transform.position = Vector3.Lerp(cameraFront.transform.position, cameraBack.transform.position, speed * Time.deltaTime);
         gameObject.transform.LookAt(cameraLookAt.transform.position);
     }
 

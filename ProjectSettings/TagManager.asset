@@ -10,6 +10,8 @@ TagManager:
   - wheelColliderTrans
   - wheelMeshesTrans
   - GameManager
+  - CameraBack
+  - CameraFront
   layers:
   - Default
   - TransparentFX

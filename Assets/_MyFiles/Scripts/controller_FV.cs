@@ -37,8 +37,10 @@ public class controller_FV : MonoBehaviour
     public GameObject[] wheelMeshes = new GameObject[4];
     public GameObject centerOfMass;
     private Rigidbody rigidBody;
-    public float downForceValue = 50f; // For Zone Ability
-    public float handBrakeFrictionMultiplier = 2f; // lower value to drift more, higher value to drift less
+    [SerializeField]
+    private float downForceValue = 10f; // For Zone Ability
+    [SerializeField]
+    private float handBrakeFrictionMultiplier = 2f; // lower value to drift more, higher value to drift less
     public AnimationCurve enginePower;
     public float maxRPM, minRPM;
     public float[] gearChangeSpeed;
@@ -485,5 +487,27 @@ public class controller_FV : MonoBehaviour
 
         nitrousFlag = false;
     }
+
+
+    public float GetDownForceValue()
+    {
+        return downForceValue;
+    }
+
+    public void SetDownForceValue(float value)
+    {
+        downForceValue = value;
+    }
+
+    public float GetHandBrakeValue()
+    {
+        return handBrakeFrictionMultiplier;
+    }
+
+    public void SetHandBrakeValue(float value)
+    {
+        handBrakeFrictionMultiplier = value;
+    }
+
 
 }
