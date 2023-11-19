@@ -17,7 +17,12 @@ public class CameraController : MonoBehaviour
     public GameObject cameraFront;
     public GameObject cameraBack;
     public GameObject cameraLookAt;
+    public GameObject driftCamConstraintLeft;
+    public GameObject driftCamConstraintRight;
     public GameObject rearViewCamera;
+
+    [Space(10f)]
+    [Header("Camera Variables")]
     public float speed;
     public float defaultFOV = 0f, desiredFOV = 0f;
     [Range(0,5)] public float smoothTime = 0f;
@@ -29,6 +34,9 @@ public class CameraController : MonoBehaviour
         cameraFront = GameObject.FindGameObjectWithTag("CameraFront");  // ask professor Li how to find these objects in effecient way
         cameraBack = GameObject.FindGameObjectWithTag("CameraBack");
         cameraLookAt = GameObject.FindGameObjectWithTag("CameraLookAt");
+        driftCamConstraintLeft = GameObject.FindGameObjectWithTag("DriftCamConstraintLeft");
+        driftCamConstraintRight = GameObject.FindGameObjectWithTag("DriftCamConstraintRight");
+
 
         pController_FV = player.GetComponent<controller_FV>();
         inputManager = player.GetComponent<InputManager>();
@@ -40,6 +48,7 @@ public class CameraController : MonoBehaviour
     {
         Follow();
         BoostFOV();
+        DriftingCameraAction();
         ActivateRearViewCamera();
     }
 
@@ -58,6 +67,15 @@ public class CameraController : MonoBehaviour
 
         gameObject.transform.position = Vector3.Lerp(cameraFront.transform.position, cameraBack.transform.position, speed * Time.deltaTime);
         gameObject.transform.LookAt(cameraLookAt.transform.position);
+    }
+
+    private void DriftingCameraAction()
+    {
+        //if(pController_FV.playPauseSmoke)
+        //    gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, speed * Time.deltaTime);
+        //else if(pController_FV.)
+        //    gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, speed * Time.deltaTime);
+
     }
 
     private void BoostFOV()

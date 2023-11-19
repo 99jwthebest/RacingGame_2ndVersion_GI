@@ -12,6 +12,8 @@ TagManager:
   - GameManager
   - CameraBack
   - CameraFront
+  - DriftCamConstraintLeft
+  - DriftCamConstraintRight
   layers:
   - Default
   - TransparentFX

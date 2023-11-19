@@ -1414,7 +1414,7 @@ GameObject:
   - component: {fileID: 427568390}
   m_Layer: 0
   m_Name: DriftCamConstraintRight
-  m_TagString: CameraBack
+  m_TagString: DriftCamConstraintRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16469,7 +16469,7 @@ GameObject:
   - component: {fileID: 1678848827}
   m_Layer: 0
   m_Name: DriftCamConstraintLeft
-  m_TagString: CameraBack
+  m_TagString: DriftCamConstraintLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
