@@ -32,6 +32,7 @@ public class controller_FV : MonoBehaviour
     [HideInInspector] public bool test; //engine sound boolean
 
     [Header("Variables")]
+    public float driftCompensation;
     public GameObject go_wheelColliders, go_wheelMeshes;
     public WheelCollider[] wheelColliders = new WheelCollider[4];
     public GameObject[] wheelMeshes = new GameObject[4];
@@ -406,7 +407,7 @@ public class controller_FV : MonoBehaviour
 
                 if(vertical > 0)
                 {
-                    //rigidBody.AddForce(transform.forward * 5000);
+                    rigidBody.AddForce(transform.forward * 5000);
                     Debug.Log("Adding MY PERSONAL FORce!!");
                 }
             }
@@ -418,15 +419,29 @@ public class controller_FV : MonoBehaviour
             }
 
 
-            if (wheelHit.sidewaysSlip >= 0.3f) 
+            if (wheelHit.sidewaysSlip >= 0.3f)
+            {
                 driftingLeft = true;
+                rigidBody.AddForce(-transform.right * driftCompensation * wheelHit.sidewaysSlip);
+
+            }
             else
+            {
                 driftingLeft = false;
 
+            }
+
             if (wheelHit.sidewaysSlip <= -0.3f)
+            {
                 driftingRight = true;
+                rigidBody.AddForce(-transform.right * driftCompensation * wheelHit.sidewaysSlip);
+
+            }
             else
+            {
                 driftingRight = false;
+
+            }
 
 
 

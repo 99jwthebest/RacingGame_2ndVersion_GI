@@ -36,10 +36,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        CheckIfCheckpointsCleared();
+        CheckGameState();
     }
 
-    void CheckIfCheckpointsCleared()
+    void CheckGameState()
     {
         if(currentCheckPoint >= totalAmountCheckpoints)
         {
