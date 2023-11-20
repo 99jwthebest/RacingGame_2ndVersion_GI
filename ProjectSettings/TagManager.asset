@@ -14,6 +14,8 @@ TagManager:
   - CameraFront
   - DriftCamConstraintLeft
   - DriftCamConstraintRight
+  - LookAtEmptyLeft
+  - LookAtEmptyRight
   layers:
   - Default
   - TransparentFX
