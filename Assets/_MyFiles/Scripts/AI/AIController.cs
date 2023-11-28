@@ -1,10 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class controller_FV : MonoBehaviour
+public class AIController : MonoBehaviour
 {
+
     internal enum DriveType
     {
         frontWheelDrive,
@@ -25,7 +25,6 @@ public class controller_FV : MonoBehaviour
     private GearBox gearChange;
 
 
-    private InputManager inputManager;
 
     [HideInInspector] public float nitrousValue;
     [HideInInspector] public bool nitrousFlag;
@@ -65,7 +64,34 @@ public class controller_FV : MonoBehaviour
     private float radius = 6, brakePower = 0, wheelsRPM, driftFactor, lastValue, horizontal, vertical, totalPower;
     private bool flag = false;
     [HideInInspector] public bool playPauseSmoke = false, hasFinished;
-    
+
+
+
+    public bool handbrake;
+    public bool boosting;
+    public bool rearViewCamera;
+    public bool zoneActivated;
+
+    public TrackWaypoints waypoints;
+    public Transform currentWaypoint;
+    public List<Transform> nodes = new List<Transform>();
+    public int distanceOffset = 5;
+    public float steerForce = 5;
+    [Header("AI acceleration value")]
+    [Range(0, 1)] public float acceleration = 0.5f;
+    public int currentNode;
+
+
+
+    private void Awake()
+    {
+        waypoints = GameObject.FindGameObjectWithTag("Path").GetComponent<TrackWaypoints>();
+        currentWaypoint = gameObject.transform;
+
+        nodes = waypoints.nodes;
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,10 +101,6 @@ public class controller_FV : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        horizontal = inputManager.horizontal;
-        vertical = inputManager.vertical;
-
 
 
         lastValue = engineRPM;
@@ -90,13 +112,62 @@ public class controller_FV : MonoBehaviour
         GetFriction();
         CalculateEnginePower(); //
         AdjustTraction(); //
-        ActivateNitrous(); //
+        //ActivateNitrous(); //
+        AIDrive();
     }
 
+    private void AIDrive()
+    {
+        CalculateDistanceOfWaypoints();
+        AISteer();
+        vertical = acceleration;
+    }
+    void CalculateDistanceOfWaypoints()
+    {
+        Vector3 position = gameObject.transform.position;
+        float distance = Mathf.Infinity;
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            Vector3 difference = nodes[i].transform.position - position;
+            float currentDistance = difference.magnitude;
+            if (currentDistance < distance)
+            {
+                if ((i + distanceOffset) >= nodes.Count)
+                {
+                    Debug.Log("Is is it 1111??!?!?");
+
+                    currentWaypoint = nodes[0];
+                    distance = currentDistance;
+                }
+                else
+                {
+                    Debug.Log("Is is ELSE??!?!?");
+                    currentWaypoint = nodes[i + distanceOffset];
+                    distance = currentDistance;
+                }
+                currentNode = i;
+            }
+
+        }
+
+    }
+
+    void AISteer()
+    {
+        Vector3 relative = transform.InverseTransformPoint(currentWaypoint.transform.position);
+        relative /= relative.magnitude;
+
+        horizontal = (relative.x / relative.magnitude) * steerForce;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(currentWaypoint.position, 3);
+    }
 
     private void GetObjects()
     {
-        inputManager = GetComponent<InputManager>();
         rigidBody = GetComponent<Rigidbody>();
         //gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
@@ -136,7 +207,7 @@ public class controller_FV : MonoBehaviour
             test = false;
         }
 
-        if (engineRPM >= maxRPM + 1000) 
+        if (engineRPM >= maxRPM + 1000)
             engineRPM = maxRPM + 1000; // clamp at max
 
 
@@ -148,7 +219,7 @@ public class controller_FV : MonoBehaviour
     {
         float sum = 0;
         int r = 0;
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             sum += wheelColliders[i].rpm;
             r++;
@@ -173,15 +244,15 @@ public class controller_FV : MonoBehaviour
 
     private bool CheckGears()
     {
-        if (KPH >= gearChangeSpeed[gearNum]) 
+        if (KPH >= gearChangeSpeed[gearNum])
             return true;
-        else 
+        else
             return false;
     }
 
     private void Shifter()
     {
-        if (!IsGrounded()) 
+        if (!IsGrounded())
             return;
 
         //automatic
@@ -281,16 +352,16 @@ public class controller_FV : MonoBehaviour
         //steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontalInput;
         // it turns the wheel that is on the side of the turn more than the wheel that is not the side that is being turned
         // so that it can make a complete turn or circle instead of just slightly turning the car each time
-        if (inputManager.horizontal > 0)
+        if (horizontal > 0)
         {
             //rear tracks size is set to 1.5f       wheel base has been set to 2.55f
-            wheelColliders[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * inputManager.horizontal;
-            wheelColliders[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius - (1.5f / 2))) * inputManager.horizontal;
+            wheelColliders[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontal;
+            wheelColliders[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius - (1.5f / 2))) * horizontal;
         }
-        else if (inputManager.horizontal < 0)
+        else if (horizontal < 0)
         {
-            wheelColliders[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius - (1.5f / 2))) * inputManager.horizontal;
-            wheelColliders[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * inputManager.horizontal;
+            wheelColliders[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius - (1.5f / 2))) * horizontal;
+            wheelColliders[1].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontal;
             //transform.Rotate(Vector3.up * steerHelping);
 
         }
@@ -307,9 +378,9 @@ public class controller_FV : MonoBehaviour
         Vector3 wheelPosition = Vector3.zero;
         Quaternion wheelRotation = Quaternion.identity;
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            wheelColliders [i].GetWorldPose(out wheelPosition, out wheelRotation);
+            wheelColliders[i].GetWorldPose(out wheelPosition, out wheelRotation);
             wheelMeshes[i].transform.position = wheelPosition;
             wheelMeshes[i].transform.rotation = wheelRotation;
         }
@@ -318,7 +389,7 @@ public class controller_FV : MonoBehaviour
 
     private void GetFriction()
     {
-        for(int i = 0; i < wheelColliders.Length; i++)
+        for (int i = 0; i < wheelColliders.Length; i++)
         {
             WheelHit wheelHit;
             wheelColliders[i].GetGroundHit(out wheelHit);
@@ -334,7 +405,7 @@ public class controller_FV : MonoBehaviour
         //time it takes to go from normal drive to drift 
         float driftSmoothFactor = .7f * Time.deltaTime;
 
-        if (inputManager.handbrake)
+        if (handbrake)
         {
             sidewaysFriction = wheelColliders[0].sidewaysFriction;
             forwardFriction = wheelColliders[0].forwardFriction;
@@ -392,7 +463,7 @@ public class controller_FV : MonoBehaviour
                 playPauseSmoke = true;
                 Debug.Log("I am DRIFTING!!!!");
 
-                if(vertical > 0)
+                if (vertical > 0)
                 {
                     rigidBody.AddForce(transform.forward * 5000);
                     Debug.Log("Adding MY PERSONAL FORce!!");
@@ -432,9 +503,9 @@ public class controller_FV : MonoBehaviour
 
 
 
-            if (wheelHit.sidewaysSlip < 0) driftFactor = (1 + -inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
+            if (wheelHit.sidewaysSlip < 0) driftFactor = (1 + -horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
 
-            if (wheelHit.sidewaysSlip > 0) driftFactor = (1 + inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
+            if (wheelHit.sidewaysSlip > 0) driftFactor = (1 + horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
         }
     }
 
@@ -448,41 +519,41 @@ public class controller_FV : MonoBehaviour
         }
     }
 
-    public void ActivateNitrous()
-    {
-        if(!inputManager.boosting && nitrousValue <= 10)
-        {
-            nitrousValue += Time.deltaTime;
-        }
-        else
-        {
-            nitrousValue -= (nitrousValue <= 0) ? 0 : Time.deltaTime;
-        }
+    //public void ActivateNitrous()
+    //{
+    //    if (!inputManager.boosting && nitrousValue <= 10)
+    //    {
+    //        nitrousValue += Time.deltaTime;
+    //    }
+    //    else
+    //    {
+    //        nitrousValue -= (nitrousValue <= 0) ? 0 : Time.deltaTime;
+    //    }
 
-        if(inputManager.boosting)
-        {
-            if(nitrousValue > 0)
-            {
-                StartNitrousEmitter();
-                rigidBody.AddForce(transform.forward * 10000);
-            }
-            else
-            {
-                StopNitrousEmitter();
-            }
-        }
-        else
-        {
-            StopNitrousEmitter();
-        }
-    }
+    //    if (inputManager.boosting)
+    //    {
+    //        if (nitrousValue > 0)
+    //        {
+    //            StartNitrousEmitter();
+    //            rigidBody.AddForce(transform.forward * 10000);
+    //        }
+    //        else
+    //        {
+    //            StopNitrousEmitter();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        StopNitrousEmitter();
+    //    }
+    //}
 
     public void StartNitrousEmitter()
     {
         if (nitrousFlag)
             return;
 
-        for(int i = 0; i < nitrousSmoke.Length; i++)
+        for (int i = 0; i < nitrousSmoke.Length; i++)
         {
             nitrousSmoke[i].Play();
         }
@@ -523,6 +594,4 @@ public class controller_FV : MonoBehaviour
     {
         handBrakeFrictionMultiplier = value;
     }
-
-
 }

@@ -34,6 +34,12 @@ public class CameraController : MonoBehaviour
     public float driftCamSpeed;
     public float defaultFOV = 0f, desiredFOV = 0f;
     [Range(0,5)] public float smoothTime = 0f;
+    [Space(10f)]
+    [Header("Camera Crash Settings")]
+    public bool lookingAtCarCrash;
+    public Transform otherCar;
+    public float timeForLookingAtCrash = 4f;
+    float timeForLookingAtCrashStart;
 
     private void Awake()
     {
@@ -53,14 +59,32 @@ public class CameraController : MonoBehaviour
         cameraShaker = GetComponent<CameraShaker>();
 
         defaultFOV = Camera.main.fieldOfView;
+
+
+        timeForLookingAtCrashStart = timeForLookingAtCrash;
+
     }
 
     private void FixedUpdate()
     {
-        //Follow();
-        BoostFOV();
-        DriftingCameraAction();
-        ActivateRearViewCamera();
+
+
+        if (lookingAtCarCrash)
+        {
+            timeForLookingAtCrash -= 1 * Time.deltaTime;
+            CameraLookAtCarCrash(otherCar);
+            //return;
+
+        }
+        else
+        {
+            //Follow();
+            BoostFOV();
+            DriftingCameraAction();
+            ActivateRearViewCamera();
+
+        }
+
     }
 
     private void Follow()  // give leave way to have the camera move right left up or down so it looks like it's not fixed on the car.
@@ -186,6 +210,25 @@ public class CameraController : MonoBehaviour
         }
 
     }
+
+    public void CameraLookAtCarCrash(Transform car)
+    {
+        //GameObject player = FindObjectOfType<CameraController>().gameObject;
+        otherCar = car;
+
+        lookingAtCarCrash = true;
+        //gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, driftCamSpeed * Time.deltaTime);
+        Camera.main.transform.LookAt(otherCar.transform.position);
+        //cameraShaker.StartShake();
+
+        if (timeForLookingAtCrash <= 0)
+        {
+            timeForLookingAtCrash = timeForLookingAtCrashStart;
+            lookingAtCarCrash = false;
+
+        }
+    }
+
 
     private void ActivateRearViewCamera()
     {

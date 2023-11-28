@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public int totalAmountCheckpoints;
     public int currentLaps;
     public int totalLaps;
+    public TrackWaypoints waypoints;
+
+    public List<Transform> nodes = new List<Transform>();
 
     [Space(10f)]
     [Header("Times For Race")]
@@ -31,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     private void Update()
@@ -43,9 +46,9 @@ public class GameManager : MonoBehaviour
     {
         if(currentCheckPoint >= totalAmountCheckpoints)
         {
-            currentLaps++;
             currentCheckPoint = 0;
 
+            currentLaps++;
             CheckLaps();
         }
     }

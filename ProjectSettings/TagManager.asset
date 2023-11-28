@@ -16,6 +16,8 @@ TagManager:
   - DriftCamConstraintRight
   - LookAtEmptyLeft
   - LookAtEmptyRight
+  - Path
+  - AI
   layers:
   - Default
   - TransparentFX
