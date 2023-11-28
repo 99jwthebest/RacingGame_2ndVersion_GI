@@ -85,7 +85,7 @@ public class HealthComponent : MonoBehaviour
 
     }
 
-    private void CarDeath()
+    public void CarDeath()
     {
         AIController aiC = GetComponent<AIController>();
         aiC.SetDownForceValue(0);

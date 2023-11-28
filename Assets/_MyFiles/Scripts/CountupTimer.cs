@@ -6,6 +6,8 @@ using UnityEngine;
 public class CountupTimer : MonoBehaviour
 {
     public static CountupTimer Instance;
+    public float timeScale;
+    float startTimeScale;
 
     float currentTime = 0;
 
@@ -24,6 +26,8 @@ public class CountupTimer : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        timeScale = Time.timeScale;
+        startTimeScale = Time.timeScale;    
     }
 
     void Start()
@@ -79,8 +83,28 @@ public class CountupTimer : MonoBehaviour
         return currentTime;
     }
 
+    public float GetStartTimeScale()
+    {
+        return startTimeScale;
+    }
+
+    public float GetTimeScale()
+    {
+        return timeScale;
+    }
+
+    public float SetTimeScale(float timeScale)
+    {
+
+        Time.timeScale = timeScale;
+        this.timeScale = Time.timeScale;
+        return timeScale;
+    }
+
+
     public void StopTime()
     {
         Time.timeScale = 0f;
+        timeScale = Time.timeScale;
     }
 }

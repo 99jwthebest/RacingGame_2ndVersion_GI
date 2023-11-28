@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
     [Header("AI acceleration value")]
     [Range(0, 1)] public float acceleration = 0.5f;
     public int currentNode;
-
+    HealthComponent healthComp;
 
     private void Awake()
     {
@@ -37,6 +37,8 @@ public class InputManager : MonoBehaviour
         currentWaypoint = gameObject.transform;
 
         nodes = waypoints.nodes;
+
+        healthComp = GetComponent<HealthComponent>();
     }
 
 
@@ -84,6 +86,10 @@ public class InputManager : MonoBehaviour
             zoneActivated = true;
         else
             zoneActivated = false;
+
+        //if (Input.GetKeyDown(KeyCode.F))
+        //    healthComp.CarDeath();
+
     }
 
     private void mobileDrive()

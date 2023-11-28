@@ -14354,6 +14354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5849bb8dfbf6b1b44b289c07d68989f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeScale: 0
   startingTime: 0
   addTimeFromCheckpoint: 10
   minutesText: {fileID: 1430249193}
@@ -50696,6 +50697,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2406008989457337092}
+  - component: {fileID: 4632590483081353979}
   - component: {fileID: 4632590483081353978}
   - component: {fileID: 4632590483081353975}
   - component: {fileID: 3284994021305706473}
@@ -50797,10 +50799,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pController_FV: {fileID: 0}
   inputManager: {fileID: 0}
+  countupTimer: {fileID: 0}
   default_DownForceValue: 0
   default_HandBrakeValue: 0
-  downForceValue: 100
-  handBrakeValue: 10
+  downForceValue: 150
+  handBrakeValue: 15
+  timeSlowDownValue: 0.4
 --- !u!114 &4632590483081353978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50818,6 +50822,25 @@ MonoBehaviour:
   currentWaypoint: 0
   currentPosition: 0
   totalWaypoint: 0
+--- !u!114 &4632590483081353979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4632590483081353973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb962f44fc20a24293bb9cb75cdf082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  maxHealth: 0
+  healthSlider: {fileID: 0}
+  regenHealthYieldTime: 3
+  regenHealthRateTime: 0.1
+  crashForce: 100
+  torque: 0
 --- !u!33 &4690433085008176690
 MeshFilter:
   m_ObjectHideFlags: 0

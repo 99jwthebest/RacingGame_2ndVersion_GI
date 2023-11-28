@@ -9,6 +9,8 @@ public class ZoneAbility : MonoBehaviour
     [SerializeField]
     private InputManager inputManager;
     [SerializeField]
+    private CountupTimer countupTimer;
+    [SerializeField]
     private float default_DownForceValue;
     [SerializeField]
     private float default_HandBrakeValue;
@@ -16,6 +18,8 @@ public class ZoneAbility : MonoBehaviour
     private float downForceValue;
     [SerializeField]
     private float handBrakeValue;
+    [SerializeField]
+    private float timeSlowDownValue;
 
 
 
@@ -24,8 +28,11 @@ public class ZoneAbility : MonoBehaviour
     {
         pController_FV = GetComponent<controller_FV>();
         inputManager = GetComponent<InputManager>();
+        countupTimer = CountupTimer.Instance;
 
         SetDefaultValues();
+
+
     }
 
     // Update is called once per frame
@@ -47,6 +54,7 @@ public class ZoneAbility : MonoBehaviour
         {
             pController_FV.SetDownForceValue(downForceValue);
             pController_FV.SetHandBrakeValue(handBrakeValue);
+            countupTimer.SetTimeScale(timeSlowDownValue);
         }
         else
         {
@@ -56,6 +64,8 @@ public class ZoneAbility : MonoBehaviour
 
     void DeactivateZoneAbility()
     {
+        countupTimer.SetTimeScale(countupTimer.GetStartTimeScale());
+
         pController_FV.SetDownForceValue(default_DownForceValue);
         pController_FV.SetHandBrakeValue(default_HandBrakeValue);
     }
