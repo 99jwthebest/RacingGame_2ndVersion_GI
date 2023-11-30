@@ -8,7 +8,14 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    public controller_FV pController_FV;
+    [SerializeField]
+    CarPositions carPositions;
+    [SerializeField] 
+    controller_FV pController_FV;
+    [SerializeField]
+    PositionHolder pPositionHolder;
+    [SerializeField]
+    GameManager gameManager;
 
     public GameObject needle;
     public TextMeshProUGUI kphText;
@@ -16,6 +23,9 @@ public class UIManager : MonoBehaviour
     public Slider nitrousSlider;
     private float startPosition = 199f, endPosition = -19f;
     private float desiredPosition;
+    public TextMeshProUGUI carPositionText;
+    public TextMeshProUGUI lapNumberText;
+
 
     public TextMeshProUGUI winMenuText;
 
@@ -35,6 +45,8 @@ public class UIManager : MonoBehaviour
         kphText.text = pController_FV.KPH.ToString("0");
         UpdateNeedle();
         NitrousUI();
+        CarPositionUI();
+        LapNumberUI();
     }
 
     public void UpdateNeedle()
@@ -55,6 +67,17 @@ public class UIManager : MonoBehaviour
     {
         nitrousSlider.value = pController_FV.nitrousValue / 15.6f;
     }
+
+    public void CarPositionUI()
+    {
+        carPositionText.text = pPositionHolder.currentPosition + " / " + carPositions.positionHolders.Count;
+    }
+
+    public void LapNumberUI()
+    {
+        lapNumberText.text = gameManager.currentLap + " / " + gameManager.totalLaps;
+    }
+
 
     public void SetWinMenuResults(string winText)
     {

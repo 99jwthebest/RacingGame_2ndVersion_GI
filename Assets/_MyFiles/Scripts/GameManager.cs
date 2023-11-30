@@ -14,10 +14,11 @@ public class GameManager : MonoBehaviour
 
     public int currentCheckPoint;
     public int totalAmountCheckpoints;
-    public int currentLaps;
+    public int currentLap;
     public int totalLaps;
     public TrackWaypoints waypoints;
-
+    [SerializeField]
+    Transform checkpointParent;
     public List<Transform> nodes = new List<Transform>();
 
     [Space(10f)]
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        totalAmountCheckpoints = checkpointParent.transform.childCount;
     }
 
     void Start()
@@ -48,14 +50,16 @@ public class GameManager : MonoBehaviour
         {
             currentCheckPoint = 0;
 
-            currentLaps++;
+            StartCoroutine(TurnOnCheckpoints());
+
+            currentLap++;
             CheckLaps();
         }
     }
 
     void CheckLaps()
     {
-        if(currentLaps >= totalLaps)
+        if(currentLap >= totalLaps)
         {
             CheckTimeElapsed();
             EndRace();
@@ -84,9 +88,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator TurnOnCheckpoints()
+    {
+        yield return new WaitForSeconds(1f);
+
+        foreach (Transform checkpoint in checkpointParent)
+        {
+            checkpoint.transform.gameObject.SetActive(true);
+        }
+    }
+
     void EndRace()
     {
         Debug.Log("You cleared Checkpoints, boy!!!!!");
+        GameObject player = pController_FV.gameObject;
+        ZoneAbility zoneAbility = player.GetComponent<ZoneAbility>();
+        zoneAbility.enabled = false;
         winMenuUI.SetActive(true);
     }
 

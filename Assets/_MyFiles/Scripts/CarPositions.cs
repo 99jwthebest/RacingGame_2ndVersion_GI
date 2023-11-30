@@ -109,8 +109,6 @@ public class CarPositions : MonoBehaviour
     }
 
 
-
-
     private IEnumerator TimedLoop()
     {
         while (true)

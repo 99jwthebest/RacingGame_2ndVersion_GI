@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour
+public class WrongWayCheckpoint : MonoBehaviour
 {
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +16,11 @@ public class Checkpoint : MonoBehaviour
         
     }
 
-
     private void OnTriggerEnter(Collider collider)
     {
-        if(collider.transform.tag == "Player")
+        if (collider.transform.tag == "Player")
         {
-            GameManager.instance.currentCheckPoint++;
+
             this.gameObject.SetActive(false);
         }
     }
