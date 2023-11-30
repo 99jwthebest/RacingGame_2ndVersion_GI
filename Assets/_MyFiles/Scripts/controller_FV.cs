@@ -3,8 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DriveState
+{
+    driving,
+    braking,
+    nitrousBoosting,
+    driftingLeft,
+    driftingRight
+}
+
+
 public class controller_FV : MonoBehaviour
 {
+
+    public DriveState driveState;
+
     internal enum DriveType
     {
         frontWheelDrive,
@@ -408,28 +421,18 @@ public class controller_FV : MonoBehaviour
 
             if (wheelHit.sidewaysSlip >= 0.3f)
             {
-                driftingLeft = true;
+                driveState = DriveState.driftingLeft;
                 rigidBody.AddForce(-transform.right * driftCompensation * wheelHit.sidewaysSlip);
-
+            }
+            else if (wheelHit.sidewaysSlip <= -0.3f)
+            {
+                driveState = DriveState.driftingRight;
+                rigidBody.AddForce(-transform.right * driftCompensation * wheelHit.sidewaysSlip);
             }
             else
             {
-                driftingLeft = false;
-
+                driveState = DriveState.driving;
             }
-
-            if (wheelHit.sidewaysSlip <= -0.3f)
-            {
-                driftingRight = true;
-                rigidBody.AddForce(-transform.right * driftCompensation * wheelHit.sidewaysSlip);
-
-            }
-            else
-            {
-                driftingRight = false;
-
-            }
-
 
 
             if (wheelHit.sidewaysSlip < 0) driftFactor = (1 + -inputManager.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip);
