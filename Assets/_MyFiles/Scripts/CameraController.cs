@@ -137,7 +137,7 @@ public class CameraController : MonoBehaviour
             //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
             cameraShaker.StartShake();
         }
-        else if (pController_FV.KPH > 40 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
+        else if (inputManager.vertical >= 0 && pController_FV.KPH > 40 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
         {
             gameObject.transform.position = Vector3.SmoothDamp(transform.position, cameraRegular.transform.position, ref velocity, Time.deltaTime * smoother3);
             Quaternion OriginalRot = transform.rotation;
@@ -146,9 +146,18 @@ public class CameraController : MonoBehaviour
             transform.rotation = OriginalRot;
             transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, Time.deltaTime * .9f);
         }
-        else if (pController_FV.KPH < 40 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
+        else if (pController_FV.KPH < 40 && pController_FV.KPH > 0 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
         {
             gameObject.transform.position = Vector3.SmoothDamp(transform.position, cameraRestStop.transform.position, ref velocity, Time.deltaTime * smoother3);
+            Quaternion OriginalRot = transform.rotation;
+            transform.LookAt(cameraLookAt.transform.position);  //see if child works better than player or not
+            Quaternion NewRot = transform.rotation;
+            transform.rotation = OriginalRot;
+            transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, Time.deltaTime * .9f);
+        }
+        else if (inputManager.vertical < 0 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
+        {
+            gameObject.transform.position = Vector3.SmoothDamp(transform.position, cameraBraking.transform.position, ref velocity, Time.deltaTime * smoother3);
             Quaternion OriginalRot = transform.rotation;
             transform.LookAt(cameraLookAt.transform.position);  //see if child works better than player or not
             Quaternion NewRot = transform.rotation;
