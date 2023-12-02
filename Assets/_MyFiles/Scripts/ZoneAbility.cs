@@ -11,6 +11,8 @@ public class ZoneAbility : MonoBehaviour
     [SerializeField]
     private CountupTimer countupTimer;
     [SerializeField]
+    private float timeSlowDownValue;
+    [SerializeField]
     private float default_DownForceValue;
     [SerializeField]
     private float default_HandBrakeValue;
@@ -19,7 +21,7 @@ public class ZoneAbility : MonoBehaviour
     [SerializeField]
     private float handBrakeValue;
     [SerializeField]
-    private float timeSlowDownValue;
+    private float zoneValue;
 
 
 
@@ -38,6 +40,7 @@ public class ZoneAbility : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckForZoneValue();
         ActivateZoneAbility();
 
     }
@@ -48,9 +51,21 @@ public class ZoneAbility : MonoBehaviour
         default_HandBrakeValue = pController_FV.GetHandBrakeValue();
     }
 
+    public void CheckForZoneValue()
+    {
+        if (!inputManager.zoneActivated && zoneValue <= 10)
+        {
+            zoneValue += Time.deltaTime;
+        }
+        else
+        {
+            zoneValue -= (zoneValue <= 0) ? 0 : Time.deltaTime;
+        }
+    }
+
     void ActivateZoneAbility()   // ask professor Li if there is a way to turn the car even more
     {
-        if (inputManager.zoneActivated)
+        if (inputManager.zoneActivated && zoneValue > 0)
         {
             pController_FV.SetDownForceValue(downForceValue);
             pController_FV.SetHandBrakeValue(handBrakeValue);
@@ -68,5 +83,11 @@ public class ZoneAbility : MonoBehaviour
 
         pController_FV.SetDownForceValue(default_DownForceValue);
         pController_FV.SetHandBrakeValue(default_HandBrakeValue);
+    }
+
+
+    public float GetZoneValue()
+    {
+        return zoneValue;
     }
 }

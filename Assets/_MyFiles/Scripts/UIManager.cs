@@ -16,11 +16,14 @@ public class UIManager : MonoBehaviour
     PositionHolder pPositionHolder;
     [SerializeField]
     GameManager gameManager;
+    [SerializeField]
+    ZoneAbility zoneAbility;
 
     public GameObject needle;
     public TextMeshProUGUI kphText;
     public TextMeshProUGUI gearNum;
     public Slider nitrousSlider;
+    public Slider zoneSlider;
     private float startPosition = 199f, endPosition = -19f;
     private float desiredPosition;
     public TextMeshProUGUI carPositionText;
@@ -45,6 +48,7 @@ public class UIManager : MonoBehaviour
         kphText.text = pController_FV.KPH.ToString("0");
         UpdateNeedle();
         NitrousUI();
+        ZoneUI();
         CarPositionUI();
         LapNumberUI();
     }
@@ -66,6 +70,11 @@ public class UIManager : MonoBehaviour
     public void NitrousUI()
     {
         nitrousSlider.value = pController_FV.nitrousValue / 15.6f;
+    }
+
+    public void ZoneUI()
+    {
+        zoneSlider.value = zoneAbility.GetZoneValue() / 15.6f;
     }
 
     public void CarPositionUI()

@@ -407,7 +407,7 @@ public class controller_FV : MonoBehaviour
 
                 if(vertical > 0)
                 {
-                    rigidBody.AddForce(transform.forward * 5000);
+                    rigidBody.AddForce(transform.forward * 500);
                     Debug.Log("Adding MY PERSONAL FORce!!");
                 }
             }
