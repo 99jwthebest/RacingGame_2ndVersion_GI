@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public controller_FV pController_FV;
+    [SerializeField] 
+    PositionHolder positionHolder;
 
     public GameObject winMenuUI;
 
@@ -61,13 +63,14 @@ public class GameManager : MonoBehaviour
     {
         if(currentLap >= totalLaps)
         {
-            CheckTimeElapsed();
+            //TimeTrialMode();
+            RaceMode();
             EndRace();
             CountupTimer.Instance.StopTime();
         }
     }
 
-    void CheckTimeElapsed()
+    void TimeTrialMode()
     {
 
         if(CountupTimer.Instance.GetCurrentTime() < goldTime)
@@ -100,7 +103,22 @@ public class GameManager : MonoBehaviour
 
     void RaceMode()
     {
-
+        if (positionHolder.currentPosition == 1)
+        {
+            UIManager.instance.SetWinMenuResults("1st Place!!");
+        }
+        else if (positionHolder.currentPosition == 2)
+        {
+            UIManager.instance.SetWinMenuResults("2nd Place!!");
+        }
+        else if (positionHolder.currentPosition == 3)
+        {
+            UIManager.instance.SetWinMenuResults("3rd Place!!");
+        }
+        else
+        {
+            UIManager.instance.SetWinMenuResults("You FAILED!!!");
+        }
     }
 
     void EndRace()

@@ -14550,6 +14550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pController_FV: {fileID: 3284994021305706473}
+  positionHolder: {fileID: 4632590483081353978}
   winMenuUI: {fileID: 902014442}
   currentCheckPoint: 0
   totalAmountCheckpoints: 0
@@ -14558,9 +14559,9 @@ MonoBehaviour:
   waypoints: {fileID: 0}
   checkpointParent: {fileID: 1234860026}
   nodes: []
-  goldTime: 30
-  silverTime: 60
-  bronzeTime: 90
+  goldTime: 50
+  silverTime: 100
+  bronzeTime: 150
 --- !u!114 &548500548
 MonoBehaviour:
   m_ObjectHideFlags: 0
