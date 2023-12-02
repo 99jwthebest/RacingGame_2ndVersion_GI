@@ -63,12 +63,14 @@ public class ZoneAbility : MonoBehaviour
         }
     }
 
-    void ActivateZoneAbility()   // ask professor Li if there is a way to turn the car even more
+    public void ActivateZoneAbility()   // ask professor Li if there is a way to turn the car even more
     {
         if (inputManager.zoneActivated && zoneValue > 0)
         {
             pController_FV.SetDownForceValue(downForceValue);
             pController_FV.SetHandBrakeValue(handBrakeValue);
+            bool zoneActivated = true;
+            UIManager.instance.SetZoneImage(zoneActivated);
             countupTimer.SetTimeScale(timeSlowDownValue);
         }
         else
@@ -80,7 +82,8 @@ public class ZoneAbility : MonoBehaviour
     void DeactivateZoneAbility()
     {
         countupTimer.SetTimeScale(countupTimer.GetStartTimeScale());
-
+        bool zoneActivated = false;
+        UIManager.instance.SetZoneImage(zoneActivated);
         pController_FV.SetDownForceValue(default_DownForceValue);
         pController_FV.SetHandBrakeValue(default_HandBrakeValue);
     }

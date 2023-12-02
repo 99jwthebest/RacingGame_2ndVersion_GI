@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI gearNum;
     public Slider nitrousSlider;
     public Slider zoneSlider;
+    [SerializeField]
+    Image zoneImage;
     private float startPosition = 199f, endPosition = -19f;
     private float desiredPosition;
     public TextMeshProUGUI carPositionText;
@@ -75,6 +77,18 @@ public class UIManager : MonoBehaviour
     public void ZoneUI()
     {
         zoneSlider.value = zoneAbility.GetZoneValue() / 15.6f;
+    }
+
+    public Image SetZoneImage(bool zoneActivated)
+    {
+        if(zoneActivated)
+        {
+            zoneImage.enabled = true;
+            return zoneImage;
+        }
+
+        zoneImage.enabled = false;
+        return zoneImage;
     }
 
     public void CarPositionUI()

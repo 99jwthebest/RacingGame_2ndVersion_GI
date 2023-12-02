@@ -98,6 +98,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void RaceMode()
+    {
+
+    }
+
     void EndRace()
     {
         Debug.Log("You cleared Checkpoints, boy!!!!!");
