@@ -53,7 +53,8 @@ public class CountupTimer : MonoBehaviour
         //else
         //{
         //}
-
+        if (TimeStopped())
+            return;
 
         currentTime += 1 * Time.deltaTime;
 
@@ -101,10 +102,19 @@ public class CountupTimer : MonoBehaviour
         return timeScale;
     }
 
-
-    public void StopTime()
+    public bool TimeStopped()
     {
-        Time.timeScale = 0f;
+        if (Time.timeScale == 0)
+            return true;
+
+        return false;
+    }
+
+
+    public void SetTime(bool state)
+    {
+        Time.timeScale = (state) ? 0f : 1f;
+        Debug.Log(Time.timeScale);
         timeScale = Time.timeScale;
     }
 }

@@ -75,6 +75,8 @@ public class ZoneAbility : MonoBehaviour
         }
         else
         {
+            if (CountupTimer.Instance.TimeStopped())
+                return;
             DeactivateZoneAbility();
         }
     }
