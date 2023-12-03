@@ -52771,6 +52771,7 @@ MonoBehaviour:
   - {fileID: 4876305469174894877}
   - {fileID: 873781602}
   centerOfMass: {fileID: 983297912}
+  actualBrakePower: 1e+12
   downForceValue: 50
   handBrakeFrictionMultiplier: 2
   enginePower:

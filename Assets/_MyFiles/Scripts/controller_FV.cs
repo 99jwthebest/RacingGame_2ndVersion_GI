@@ -52,6 +52,8 @@ public class controller_FV : MonoBehaviour
     public GameObject centerOfMass;
     private Rigidbody rigidBody;
     [SerializeField]
+    private float actualBrakePower = 100f;
+    [SerializeField]
     private float downForceValue = 10f; // For Zone Ability
     [SerializeField]
     private float handBrakeFrictionMultiplier = 2f; // lower value to drift more, higher value to drift less
@@ -260,7 +262,9 @@ public class controller_FV : MonoBehaviour
             for (int i = 0; i < wheelColliders.Length; i++)
             {
                 wheelColliders[i].brakeTorque = brakePower;
+            Debug.Log(wheelColliders[i].brakeTorque + " Brake TORQUE Value.");
             }
+
         }
 
         KPH = rigidBody.velocity.magnitude * 3.6f;
@@ -273,7 +277,7 @@ public class controller_FV : MonoBehaviour
 
         if (vertical < 0)
         {
-            brakePower = (KPH >= 10) ? 500 : 0;
+            brakePower = (KPH >= 10) ? actualBrakePower : 0;
         }
         else if (vertical == 0 && (KPH <= 10 || KPH >= -10))
         {
@@ -340,7 +344,6 @@ public class controller_FV : MonoBehaviour
 
         }
     }
-
 
     private void AdjustTraction()
     {
