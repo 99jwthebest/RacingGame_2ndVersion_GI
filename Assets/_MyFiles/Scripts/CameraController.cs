@@ -23,6 +23,8 @@ public class CameraController : MonoBehaviour
     public GameObject cameraLookAt;
     public GameObject driftCamConstraintLeft;
     public GameObject driftCamConstraintRight;
+    public GameObject brakingWhileDriftingLeftPosition;
+    public GameObject brakingWhileDriftingRightPosition;
     public GameObject lookAtEmptyLeft;
     public GameObject lookAtEmptyRight;
     public GameObject rearViewCamera;
@@ -37,10 +39,10 @@ public class CameraController : MonoBehaviour
     public float driftCamSpeed;
     public float defaultFOV = 0f, desiredFOV = 0f;
     [Range(0,5)] public float smoothTime = 0f;
-    [SerializeField]
-    Vector3 offsetBrakingConstraints = new Vector3(0, 0, 2);
-    Vector3 brakingWhileDriftingLeftPosition;
-    Vector3 brakingWhileDriftingRightPosition;
+    //[SerializeField]
+    //Vector3 offsetBrakingConstraints = new Vector3(0, 0, 2);
+    //Vector3 brakingWhileDriftingLeftPosition;
+    //Vector3 brakingWhileDriftingRightPosition;
 
 
     [Space(10f)]
@@ -70,8 +72,8 @@ public class CameraController : MonoBehaviour
         timeForLookingAtCrashStart = timeForLookingAtCrash;
 
 
-        brakingWhileDriftingLeftPosition = driftCamConstraintLeft.transform.position + offsetBrakingConstraints;
-        brakingWhileDriftingRightPosition = driftCamConstraintRight.transform.position + offsetBrakingConstraints;
+        //brakingWhileDriftingLeftPosition = driftCamConstraintLeft.transform.position + offsetBrakingConstraints;
+        //brakingWhileDriftingRightPosition = driftCamConstraintRight.transform.position + offsetBrakingConstraints;
 
     }
 
@@ -119,24 +121,27 @@ public class CameraController : MonoBehaviour
         gameObject.transform.LookAt(cameraLookAt.transform.position);
     }
 
-    void MoveCameraWhileBraking()
-    {
-        //if (pController_FV.driveState == DriveState.driftingRight || pController_FV.driveState == DriveState.driftingLeft)
-        //    return;
-
-
-        gameObject.transform.position = cameraRegular.transform.forward;
-        driftCamConstraintLeft.transform.localPosition = gameObject.transform.localPosition + offsetBrakingConstraints;
-        driftCamConstraintRight.transform.localPosition = gameObject.transform.localPosition + (-offsetBrakingConstraints);
-
-    }
 
     private void DriftingCameraAction()
     {
 
-        if (pController_FV.driveState == DriveState.driftingRight) // && inputManager.isSlowing == false && RR.KPH > 50)
+        if (pController_FV.driveState == DriveState.driftingLeft && inputManager.vertical < 0 && pController_FV.reverse == false)// && inputManager.isSlowing == false && RR.KPH > 50)
         {
-            gameObject.transform.position = Vector3.SmoothDamp(transform.position, driftCamConstraintRight.transform.position, ref velocity, Time.deltaTime * smoother);
+            gameObject.transform.position = Vector3.SmoothDamp(transform.position, brakingWhileDriftingLeftPosition.transform.position, ref velocity, Time.deltaTime * smoother);
+            Quaternion OriginalRot = transform.rotation;
+            transform.LookAt(lookAtEmptyLeft.transform.position);
+            Quaternion newRot = transform.rotation;
+            transform.rotation = OriginalRot;
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * 1.4f);
+            Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, -.19f, gameObject.transform.localRotation.w);
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
+            //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
+            cameraShaker.StartShake();
+
+        }
+        else if (pController_FV.driveState == DriveState.driftingRight && inputManager.vertical < 0 && pController_FV.reverse == false)// && inputManager.isSlowing == false && RR.KPH > 50)
+        {
+            gameObject.transform.position = Vector3.SmoothDamp(transform.position, brakingWhileDriftingRightPosition.transform.position, ref velocity, Time.deltaTime * smoother);
             //gameObject.transform.LookAt(lookEmptyRight.gameObject.transform.position);  //see if child works better than player or not
             Quaternion OriginalRot = transform.rotation;
             transform.LookAt(lookAtEmptyRight.transform.position);
@@ -162,35 +167,21 @@ public class CameraController : MonoBehaviour
             cameraShaker.StartShake();
 
         }
-        else if (pController_FV.driveState == DriveState.driftingLeft && inputManager.vertical < 0 && pController_FV.reverse == false)// && inputManager.isSlowing == false && RR.KPH > 50)
+        else if (pController_FV.driveState == DriveState.driftingRight) // && inputManager.isSlowing == false && RR.KPH > 50)
         {
-            gameObject.transform.position = Vector3.SmoothDamp(transform.position, brakingWhileDriftingLeftPosition, ref velocity, Time.deltaTime * smoother);
+            gameObject.transform.position = Vector3.SmoothDamp(transform.position, driftCamConstraintRight.transform.position, ref velocity, Time.deltaTime * smoother);
+            //gameObject.transform.LookAt(lookEmptyRight.gameObject.transform.position);  //see if child works better than player or not
             Quaternion OriginalRot = transform.rotation;
-            transform.LookAt(lookAtEmptyLeft.transform.position);
+            transform.LookAt(lookAtEmptyRight.transform.position);
             Quaternion newRot = transform.rotation;
             transform.rotation = OriginalRot;
             transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * 1.4f);
-            Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, -.19f, gameObject.transform.localRotation.w);
+            Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, .19f, gameObject.transform.localRotation.w);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
-            //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
             cameraShaker.StartShake();
 
         }
-        else if (pController_FV.driveState == DriveState.driftingLeft && inputManager.vertical < 0 && pController_FV.reverse == false)// && inputManager.isSlowing == false && RR.KPH > 50)
-        {
-            gameObject.transform.position = Vector3.SmoothDamp(transform.position, brakingWhileDriftingRightPosition, ref velocity, Time.deltaTime * smoother);
-            Quaternion OriginalRot = transform.rotation;
-            transform.LookAt(lookAtEmptyLeft.transform.position);
-            Quaternion newRot = transform.rotation;
-            transform.rotation = OriginalRot;
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * 1.4f);
-            Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, -.19f, gameObject.transform.localRotation.w);
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
-            //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
-            cameraShaker.StartShake();
-
-        }
-        else if (inputManager.vertical >= 0 && pController_FV.KPH > 40 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
+        else if (inputManager.vertical >= 0 && pController_FV.KPH > 25 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
         {
             gameObject.transform.position = Vector3.SmoothDamp(transform.position, cameraRegular.transform.position, ref velocity, Time.deltaTime * smoother3);
             Quaternion OriginalRot = transform.rotation;
@@ -199,7 +190,7 @@ public class CameraController : MonoBehaviour
             transform.rotation = OriginalRot;
             transform.rotation = Quaternion.Lerp(transform.rotation, NewRot, Time.deltaTime * .9f);
         }
-        else if (pController_FV.KPH < 40 && pController_FV.KPH > 0 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
+        else if (pController_FV.KPH < 25 && pController_FV.KPH > 0 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
         {
             gameObject.transform.position = Vector3.SmoothDamp(transform.position, cameraRestStop.transform.position, ref velocity, Time.deltaTime * smoother3);
             Quaternion OriginalRot = transform.rotation;

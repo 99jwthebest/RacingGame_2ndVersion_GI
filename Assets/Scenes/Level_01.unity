@@ -8366,6 +8366,8 @@ MonoBehaviour:
   cameraLookAt: {fileID: 477996462}
   driftCamConstraintLeft: {fileID: 0}
   driftCamConstraintRight: {fileID: 0}
+  brakingWhileDriftingLeftPosition: {fileID: 2043989430}
+  brakingWhileDriftingRightPosition: {fileID: 1275152863}
   lookAtEmptyLeft: {fileID: 0}
   lookAtEmptyRight: {fileID: 0}
   rearViewCamera: {fileID: 1307594293}
@@ -8378,7 +8380,6 @@ MonoBehaviour:
   defaultFOV: 0
   desiredFOV: 90
   smoothTime: 5
-  offsetBrakingConstraints: {x: 0, y: 0, z: 10}
   lookingAtCarCrash: 0
   otherCar: {fileID: 0}
   timeForLookingAtCrash: 4
@@ -16943,10 +16944,12 @@ Transform:
   - {fileID: 1745278333}
   - {fileID: 2128218468}
   - {fileID: 663155774}
+  - {fileID: 2043989431}
+  - {fileID: 1275152864}
   - {fileID: 1211372038}
-  - {fileID: 477996463}
   - {fileID: 1678848827}
   - {fileID: 427568390}
+  - {fileID: 477996463}
   - {fileID: 1114730861}
   - {fileID: 1709455356}
   m_Father: {fileID: 2406008989457337092}
@@ -31746,6 +31749,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 155480301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1275152863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1275152864}
+  m_Layer: 0
+  m_Name: brakingWhileDriftingRightPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1275152864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275152863}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 1.38, z: -3.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 740405847}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1282235860
 GameObject:
@@ -50291,6 +50325,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 15, y: 0, z: 15}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2043989430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2043989431}
+  m_Layer: 0
+  m_Name: brakingWhileDriftingLeftPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2043989431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043989430}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1, y: 1.38, z: -3.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 740405847}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046240222
 GameObject:
   m_ObjectHideFlags: 0
