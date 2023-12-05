@@ -15,6 +15,10 @@ public class CameraShaker : MonoBehaviour
             StartCoroutine(ShakeCoroutine());
         }
     }
+    public void StopShake()
+    {
+        shaking = false;    
+    }
 
     IEnumerator ShakeCoroutine()
     {

@@ -11,6 +11,8 @@ public class ZoneAbility : MonoBehaviour
     [SerializeField]
     private CountupTimer countupTimer;
     [SerializeField]
+    private CameraController cameraController;
+    [SerializeField]
     private float timeSlowDownValue;
     [SerializeField]
     private float default_DownForceValue;
@@ -45,7 +47,7 @@ public class ZoneAbility : MonoBehaviour
 
     }
 
-    void SetDefaultValues()
+    public void SetDefaultValues()
     {
         default_DownForceValue = pController_FV.GetDownForceValue();
         default_HandBrakeValue = pController_FV.GetHandBrakeValue();
@@ -72,10 +74,13 @@ public class ZoneAbility : MonoBehaviour
             bool zoneActivated = true;
             UIManager.instance.SetZoneImage(zoneActivated);
             countupTimer.SetTimeScale(timeSlowDownValue);
+            //transform.Rotate(Vector3.up * steerHelping);
+
+            //pController_FV.GetRigidbody().AddForce(-transform.right * driftCompensation);
         }
         else
         {
-            if (CountupTimer.Instance.TimeStopped())
+            if (CountupTimer.Instance.TimeStopped() || cameraController.lookingAtCarCrash)
                 return;
             DeactivateZoneAbility();
         }

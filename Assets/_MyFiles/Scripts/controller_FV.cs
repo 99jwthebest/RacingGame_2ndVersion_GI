@@ -530,5 +530,9 @@ public class controller_FV : MonoBehaviour
         handBrakeFrictionMultiplier = value;
     }
 
+    public Rigidbody GetRigidbody()
+    {
+        return rigidBody;
+    }
 
 }

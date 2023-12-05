@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+public enum driver
+{
+    AI,
+    keyboard,
+    mobile
+}
+
 public class InputManager : MonoBehaviour
 {
 
-    internal enum driver
-    {
-        AI,
-        keyboard,
-        mobile
-    }
-    [SerializeField] driver driveController;
+    public driver driveController;
 
     public float vertical;
     public float horizontal;

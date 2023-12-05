@@ -11,8 +11,12 @@ public class CameraController : MonoBehaviour
     public GameObject player;
     private controller_FV pController_FV;
     private InputManager inputManager;
-    private CameraShaker cameraShaker;
-    
+    [SerializeField] 
+    CameraShaker nitrousCamShake;
+    [SerializeField]
+    CameraShaker driftCamShake;
+    public CameraShaker carHitCamShake;
+
     [Space(10f)]
     [Header("Camera Constraints")]
     public GameObject cameraRestStop;
@@ -38,12 +42,13 @@ public class CameraController : MonoBehaviour
     public float speed;
     public float driftCamSpeed;
     public float defaultFOV = 0f, desiredFOV = 0f;
+
     [Range(0,5)] public float smoothTime = 0f;
     //[SerializeField]
     //Vector3 offsetBrakingConstraints = new Vector3(0, 0, 2);
     //Vector3 brakingWhileDriftingLeftPosition;
     //Vector3 brakingWhileDriftingRightPosition;
-
+    float default_DownForceValue;
 
     [Space(10f)]
     [Header("Camera Crash Settings")]
@@ -51,6 +56,9 @@ public class CameraController : MonoBehaviour
     public Transform otherCar;
     public float timeForLookingAtCrash = 4f;
     float timeForLookingAtCrashStart;
+    public float enemyCrashFOV = 40f;
+    public float crashSlowDownValue = 0.4f;
+    public float crashDownForceValue = 400f;
 
     private void Awake()
     {
@@ -64,7 +72,6 @@ public class CameraController : MonoBehaviour
 
         pController_FV = player.GetComponent<controller_FV>();
         inputManager = player.GetComponent<InputManager>();
-        cameraShaker = GetComponent<CameraShaker>();
 
         defaultFOV = Camera.main.fieldOfView;
 
@@ -74,13 +81,19 @@ public class CameraController : MonoBehaviour
 
         //brakingWhileDriftingLeftPosition = driftCamConstraintLeft.transform.position + offsetBrakingConstraints;
         //brakingWhileDriftingRightPosition = driftCamConstraintRight.transform.position + offsetBrakingConstraints;
-
+        SetDefaultValues();
     }
 
     private void FixedUpdate()
     {
 
 
+
+    }
+
+    private void LateUpdate()
+    {
+        
         if (lookingAtCarCrash)
         {
             timeForLookingAtCrash -= 1 * Time.deltaTime;
@@ -98,7 +111,11 @@ public class CameraController : MonoBehaviour
 
 
         }
+    }
 
+    public void SetDefaultValues()
+    {
+        default_DownForceValue = pController_FV.GetDownForceValue();
     }
 
     private void Follow()  // give leave way to have the camera move right left up or down so it looks like it's not fixed on the car.
@@ -136,7 +153,7 @@ public class CameraController : MonoBehaviour
             Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, -.19f, gameObject.transform.localRotation.w);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
             //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
         else if (pController_FV.driveState == DriveState.driftingRight && inputManager.vertical < 0 && pController_FV.reverse == false)// && inputManager.isSlowing == false && RR.KPH > 50)
@@ -150,7 +167,7 @@ public class CameraController : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * 1.4f);
             Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, .19f, gameObject.transform.localRotation.w);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
         else if (pController_FV.driveState == DriveState.driftingLeft)// && inputManager.isSlowing == false && RR.KPH > 50)
@@ -164,7 +181,7 @@ public class CameraController : MonoBehaviour
             Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, -.19f, gameObject.transform.localRotation.w);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
             //gameObject.transform.LookAt(lookEmptyLeft.gameObject.transform.position);  //see if child works better than player or not
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
         else if (pController_FV.driveState == DriveState.driftingRight) // && inputManager.isSlowing == false && RR.KPH > 50)
@@ -178,7 +195,7 @@ public class CameraController : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime * 1.4f);
             Quaternion nR = new Quaternion(gameObject.transform.localRotation.x, gameObject.transform.localRotation.y, .19f, gameObject.transform.localRotation.w);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, nR, Time.deltaTime * .5f);
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
         else if (inputManager.vertical >= 0 && pController_FV.KPH > 25 && pController_FV.reverse == false) // && inputManager.vertical > 0 && RR.KPH > 0 && RR.reverse == false)
@@ -244,14 +261,14 @@ public class CameraController : MonoBehaviour
         {
             gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, driftCamSpeed * Time.deltaTime);
             gameObject.transform.LookAt(cameraLookAt.transform.position);
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
         else if (pController_FV.driftingRight)
         {
             gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, driftCamSpeed * Time.deltaTime);
             gameObject.transform.LookAt(cameraLookAt.transform.position);
-            cameraShaker.StartShake();
+            driftCamShake.StartShake();
 
         }
     }
@@ -266,7 +283,7 @@ public class CameraController : MonoBehaviour
         if (pController_FV.nitrousFlag)
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, desiredFOV, smoothTime * Time.deltaTime);
-            cameraShaker.StartShake();
+            nitrousCamShake.StartShake();
         }
         else
         {
@@ -280,16 +297,28 @@ public class CameraController : MonoBehaviour
         //GameObject player = FindObjectOfType<CameraController>().gameObject;
         otherCar = car;
 
+        inputManager.driveController = driver.AI;
+
         lookingAtCarCrash = true;
         //gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, driftCamSpeed * Time.deltaTime);
         Camera.main.transform.LookAt(otherCar.transform.position);
         //cameraShaker.StartShake();
 
+        pController_FV.SetDownForceValue(crashDownForceValue);
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, enemyCrashFOV, smoothTime * Time.deltaTime);
+        CountupTimer.Instance.SetTimeScale(crashSlowDownValue);
+
+
+
         if (timeForLookingAtCrash <= 0)
         {
-            timeForLookingAtCrash = timeForLookingAtCrashStart;
-            lookingAtCarCrash = false;
+            pController_FV.SetDownForceValue(default_DownForceValue);
+            inputManager.driveController = driver.keyboard;
 
+
+            timeForLookingAtCrash = timeForLookingAtCrashStart;
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, defaultFOV, smoothTime * Time.deltaTime);
+            lookingAtCarCrash = false;
         }
     }
 

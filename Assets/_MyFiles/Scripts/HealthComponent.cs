@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HealthComponent : MonoBehaviour
 {
+    [SerializeField]
+    CameraController cameraController;
     public int currentHealth;
     public int maxHealth;
     public Slider healthSlider;
@@ -18,7 +20,7 @@ public class HealthComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class HealthComponent : MonoBehaviour
     public void TakeDamage(int amountOfDam)
     {
         currentHealth -= amountOfDam;
-        //SetHealth(currentHealth);
+        SetHealth(currentHealth);
 
         //if (regen != null)
         //{
@@ -72,6 +74,7 @@ public class HealthComponent : MonoBehaviour
         //}
 
         //regen = StartCoroutine(RegenHealth());
+        cameraController.carHitCamShake.StartShake();
 
         if (currentHealth <= 0)
         {
@@ -87,6 +90,8 @@ public class HealthComponent : MonoBehaviour
 
     public void CarDeath()
     {
+        cameraController.carHitCamShake.StopShake();
+        
         AIController aiC = GetComponent<AIController>();
         aiC.SetDownForceValue(0);
         Rigidbody rb = GetComponent<Rigidbody>();

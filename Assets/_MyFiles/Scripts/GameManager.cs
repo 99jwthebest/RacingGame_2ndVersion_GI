@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
             //TimeTrialMode();
             RaceMode();
             EndRace();
-            CountupTimer.Instance.SetTime(false);
+            CountupTimer.Instance.SetTime(true);
         }
     }
 
