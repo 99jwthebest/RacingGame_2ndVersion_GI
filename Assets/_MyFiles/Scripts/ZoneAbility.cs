@@ -24,6 +24,8 @@ public class ZoneAbility : MonoBehaviour
     private float handBrakeValue;
     [SerializeField]
     private float zoneValue;
+    [SerializeField]
+    private float carSteeringHelp;
 
 
 
@@ -74,9 +76,11 @@ public class ZoneAbility : MonoBehaviour
             bool zoneActivated = true;
             UIManager.instance.SetZoneImage(zoneActivated);
             countupTimer.SetTimeScale(timeSlowDownValue);
-            //transform.Rotate(Vector3.up * steerHelping);
 
-            //pController_FV.GetRigidbody().AddForce(-transform.right * driftCompensation);
+            if(inputManager.horizontal > 0)
+                pController_FV.GetRigidbody().AddForce(transform.right * carSteeringHelp);
+            else if(inputManager.horizontal < 0)
+                pController_FV.GetRigidbody().AddForce(-transform.right * carSteeringHelp);
         }
         else
         {

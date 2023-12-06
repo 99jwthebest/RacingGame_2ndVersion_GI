@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
@@ -106,6 +107,8 @@ public class CameraController : MonoBehaviour
             //Follow();
             BoostFOV();
             //DriftConstraintsFollowCamera();
+            
+            //CameraMoveWhileTurning();
             DriftingCameraAction();
             ActivateRearViewCamera();
 
@@ -138,6 +141,15 @@ public class CameraController : MonoBehaviour
         gameObject.transform.LookAt(cameraLookAt.transform.position);
     }
 
+    void CameraMoveWhileTurning()
+    {
+        if (inputManager.horizontal > 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, speed * Time.deltaTime);
+        else if(inputManager.horizontal < 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, speed * Time.deltaTime);
+
+
+    }
 
     private void DriftingCameraAction()
     {

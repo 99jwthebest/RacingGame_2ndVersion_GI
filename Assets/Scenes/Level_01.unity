@@ -53919,9 +53919,10 @@ MonoBehaviour:
   timeSlowDownValue: 0.3
   default_DownForceValue: 0
   default_HandBrakeValue: 0
-  downForceValue: 150
+  downForceValue: 300
   handBrakeValue: 15
   zoneValue: 0
+  carSteeringHelp: 2000
 --- !u!114 &4632590483081353978
 MonoBehaviour:
   m_ObjectHideFlags: 0
