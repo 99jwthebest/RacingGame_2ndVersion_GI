@@ -8542,7 +8542,11 @@ MonoBehaviour:
   carHitCamShake: {fileID: 330585550}
   cameraRestStop: {fileID: 1745278332}
   cameraNotAccelerating: {fileID: 386386279}
+  cameraNotAcceleratingTurnLeft: {fileID: 178898004}
+  cameraNotAcceleratingTurnRight: {fileID: 1626327787}
   cameraAccelerating: {fileID: 2128218467}
+  cameraAcceleratingTurnLeft: {fileID: 592380030}
+  cameraAcceleratingTurnRight: {fileID: 1913210565}
   cameraBraking: {fileID: 663155773}
   cameraNitrous: {fileID: 1211372037}
   cameraLookAt: {fileID: 477996462}
@@ -24602,13 +24606,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1248957361}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: MainMenuButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -38819,13 +38823,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1248957361}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -44543,13 +44547,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1248957361}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: QuitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -53194,8 +53198,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.1270639
     - serializedVersion: 3
-      time: 4512.6914
-      value: 905.8911
+      time: 4501.922
+      value: 698.6856
       inSlope: -0.004743557
       outSlope: -0.004743557
       tangentMode: 0
@@ -53217,11 +53221,11 @@ MonoBehaviour:
   maxRPM: 6000
   minRPM: 2000
   gearChangeSpeed:
-  - 30
-  - 55
-  - 80
-  - 120
-  - 180
+  - 65
+  - 112
+  - 178
+  - 240
+  - 320
   gears:
   - 2
   - 1.7
@@ -53230,6 +53234,7 @@ MonoBehaviour:
   - 0.4
   gearNum: 1
   KPH: 0
+  topSpeed: 386
   engineRPM: 0
   reverse: 0
   motorTorque: 500

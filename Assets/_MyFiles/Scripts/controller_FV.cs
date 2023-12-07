@@ -64,6 +64,8 @@ public class controller_FV : MonoBehaviour
 
     [HideInInspector] public int gearNum = 1;
     public float KPH;
+    [SerializeField]
+    float topSpeed;
     [HideInInspector] public float engineRPM;
     [HideInInspector] public bool reverse = false;
     private float smoothTime = 0.09f;
@@ -267,9 +269,7 @@ public class controller_FV : MonoBehaviour
 
         }
 
-        KPH = rigidBody.velocity.magnitude * 3.6f;
-
-
+        SpeedOfVehicle();
     }
 
     private void BrakeVehicle()
@@ -289,6 +289,16 @@ public class controller_FV : MonoBehaviour
         }
 
 
+    }
+
+    void SpeedOfVehicle()
+    {
+        KPH = rigidBody.velocity.magnitude * 3.6f;
+
+        if (KPH > topSpeed)
+        {
+            KPH = topSpeed;
+        }
     }
 
     private void SteerVehicle()

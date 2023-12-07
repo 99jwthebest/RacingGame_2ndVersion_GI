@@ -9,6 +9,8 @@ public class HealthComponent : MonoBehaviour
     CameraController cameraController;
     [SerializeField]
     controller_FV pController_FV;
+    [SerializeField]
+    Vector3 carCrashResetPosition;
     public int currentHealth;
     public int maxHealth;
     public Slider healthSlider;
@@ -85,6 +87,8 @@ public class HealthComponent : MonoBehaviour
 
     public void CarDeath()
     {
+        carCrashResetPosition = gameObject.transform.position;
+
         cameraController.carHitCamShake.StopShake();
         
         AIController aiC = GetComponent<AIController>();

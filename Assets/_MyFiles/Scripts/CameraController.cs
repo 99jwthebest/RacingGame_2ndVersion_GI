@@ -22,7 +22,13 @@ public class CameraController : MonoBehaviour
     [Header("Camera Constraints")]
     public GameObject cameraRestStop;
     public GameObject cameraNotAccelerating;
+    public GameObject cameraNotAcceleratingTurnLeft;
+    public GameObject cameraNotAcceleratingTurnRight;
+
     public GameObject cameraAccelerating;
+    public GameObject cameraAcceleratingTurnLeft;
+    public GameObject cameraAcceleratingTurnRight;
+
 
     public GameObject cameraBraking;
     public GameObject cameraNitrous;
@@ -47,10 +53,6 @@ public class CameraController : MonoBehaviour
     public float defaultFOV = 0f, desiredFOV = 0f;
 
     [Range(0,5)] public float smoothTime = 0f;
-    //[SerializeField]
-    //Vector3 offsetBrakingConstraints = new Vector3(0, 0, 2);
-    //Vector3 brakingWhileDriftingLeftPosition;
-    //Vector3 brakingWhileDriftingRightPosition;
     float default_DownForceValue;
 
     [Space(10f)]
@@ -82,8 +84,6 @@ public class CameraController : MonoBehaviour
         timeForLookingAtCrashStart = timeForLookingAtCrash;
 
 
-        //brakingWhileDriftingLeftPosition = driftCamConstraintLeft.transform.position + offsetBrakingConstraints;
-        //brakingWhileDriftingRightPosition = driftCamConstraintRight.transform.position + offsetBrakingConstraints;
         SetDefaultValues();
     }
 
@@ -145,11 +145,16 @@ public class CameraController : MonoBehaviour
 
     void CameraMoveWhileTurning()
     {
-        if (inputManager.horizontal > 0)
-            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintRight.transform.position, speed * Time.deltaTime);
-        else if(inputManager.horizontal < 0)
-            gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, speed * Time.deltaTime);
+        if (inputManager.horizontal < 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, cameraNotAcceleratingTurnLeft.transform.position, speed * Time.deltaTime);
+        else if(inputManager.horizontal > 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, cameraNotAcceleratingTurnRight.transform.position, speed * Time.deltaTime);
 
+
+        if (inputManager.horizontal < 0 && inputManager.vertical > 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, cameraAcceleratingTurnLeft.transform.position, speed * Time.deltaTime);
+        else if (inputManager.horizontal > 0 && inputManager.vertical > 0)
+            gameObject.transform.position = Vector3.Lerp(transform.position, cameraAcceleratingTurnRight.transform.position, speed * Time.deltaTime);
 
     }
 
