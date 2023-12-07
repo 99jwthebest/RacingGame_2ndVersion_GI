@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
 
     public void ZoneUI()
     {
-        zoneSlider.value = zoneAbility.GetZoneValue() / 15.6f;
+        zoneSlider.value = zoneAbility.GetZoneValue() / 46.75f;
     }
 
     public Image SetZoneImage(bool zoneActivated)

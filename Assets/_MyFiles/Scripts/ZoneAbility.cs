@@ -59,11 +59,11 @@ public class ZoneAbility : MonoBehaviour
     {
         if (!inputManager.zoneActivated && zoneValue <= 10)
         {
-            zoneValue += Time.deltaTime;
+            zoneValue += Time.deltaTime / 2;
         }
         else
         {
-            zoneValue -= (zoneValue <= 0) ? 0 : Time.deltaTime;
+            zoneValue -= (zoneValue <= 0) ? 0 : Time.deltaTime * 5;
         }
     }
 

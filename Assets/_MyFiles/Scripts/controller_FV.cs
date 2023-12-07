@@ -458,11 +458,11 @@ public class controller_FV : MonoBehaviour
     {
         if(!inputManager.boosting && nitrousValue <= 10)
         {
-            nitrousValue += Time.deltaTime;
+            nitrousValue += Time.deltaTime / 2;
         }
         else
         {
-            nitrousValue -= (nitrousValue <= 0) ? 0 : Time.deltaTime;
+            nitrousValue -= (nitrousValue <= 0) ? 0 : Time.deltaTime * 5;
         }
 
         if(inputManager.boosting)
