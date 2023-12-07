@@ -7,6 +7,8 @@ public class HealthComponent : MonoBehaviour
 {
     [SerializeField]
     CameraController cameraController;
+    [SerializeField]
+    controller_FV pController_FV;
     public int currentHealth;
     public int maxHealth;
     public Slider healthSlider;
@@ -27,14 +29,6 @@ public class HealthComponent : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private void CarHit(ColliderHit collider)
-    {
-        if (collider.collider.transform.tag == "Player")
-        {
-            TakeDamage(20);
-        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -74,6 +68,7 @@ public class HealthComponent : MonoBehaviour
         //}
 
         //regen = StartCoroutine(RegenHealth());
+        pController_FV.AddToNitrousValue(2);
         cameraController.carHitCamShake.StartShake();
 
         if (currentHealth <= 0)

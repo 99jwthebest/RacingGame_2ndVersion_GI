@@ -40,7 +40,7 @@ public class controller_FV : MonoBehaviour
 
     private InputManager inputManager;
 
-    [HideInInspector] public float nitrousValue;
+    float nitrousValue;
     [HideInInspector] public bool nitrousFlag;
     [HideInInspector] public bool test; //engine sound boolean
 
@@ -458,7 +458,10 @@ public class controller_FV : MonoBehaviour
     {
         if(!inputManager.boosting && nitrousValue <= 10)
         {
-            nitrousValue += Time.deltaTime / 2;
+            if(driveState == DriveState.driftingRight || driveState == DriveState.driftingLeft)
+                nitrousValue += Time.deltaTime;
+            else
+                nitrousValue += Time.deltaTime / 3;
         }
         else
         {
@@ -533,6 +536,17 @@ public class controller_FV : MonoBehaviour
     public Rigidbody GetRigidbody()
     {
         return rigidBody;
+    }
+
+    public float GetNitrousValue()
+    {
+        return nitrousValue;
+    }
+
+    public float AddToNitrousValue(float nValue)
+    {
+        nitrousValue += nValue;
+        return nitrousValue;
     }
 
 }

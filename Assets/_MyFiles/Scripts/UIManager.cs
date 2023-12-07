@@ -71,7 +71,7 @@ public class UIManager : MonoBehaviour
 
     public void NitrousUI()
     {
-        nitrousSlider.value = pController_FV.nitrousValue / 15.6f;
+        nitrousSlider.value = pController_FV.GetNitrousValue() / 15.6f;
     }
 
     public void ZoneUI()
