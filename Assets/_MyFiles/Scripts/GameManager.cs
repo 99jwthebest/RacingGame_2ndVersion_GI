@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameObject carPrefabToSpawn;
+    public Transform carSpawnPoint;
+    public CarsToSpawn carsToSpawn;
     public controller_FV pController_FV;
     [SerializeField] 
     PositionHolder positionHolder;
@@ -29,17 +32,37 @@ public class GameManager : MonoBehaviour
     public int silverTime;
     public int bronzeTime;
 
-
     private void Awake()
     {
         instance = this;
-        totalAmountCheckpoints = checkpointParent.transform.childCount;
     }
 
     void Start()
     {
+        carsToSpawn = FindObjectOfType<CarsToSpawn>();
 
+        SpawnVehicle();
+        totalAmountCheckpoints = checkpointParent.transform.childCount;
+        pController_FV = FindObjectOfType<controller_FV>();
+        positionHolder = pController_FV.GetComponent<PositionHolder>();
     }
+    
+    void SpawnVehicle()
+    {
+        GameplayStatics.instance.GetCarSelect();
+        switch (GameplayStatics.instance.GetCarSelect())
+        {
+            case 1:
+                carPrefabToSpawn = carsToSpawn.carsToSpawnArray[0];
+                break;
+            case 2:
+                carPrefabToSpawn = carsToSpawn.carsToSpawnArray[1];
+                break;
+        }
+
+        Instantiate(carPrefabToSpawn, carSpawnPoint.transform.position, carSpawnPoint.transform.rotation);
+    }
+
 
     private void Update()
     {
@@ -52,7 +75,7 @@ public class GameManager : MonoBehaviour
         {
             currentCheckPoint = 0;
 
-            StartCoroutine(TurnOnCheckpoints());
+            TurnOnNextCheckpoint();
 
             currentLap++;
             CheckLaps();
@@ -99,6 +122,11 @@ public class GameManager : MonoBehaviour
         {
             checkpoint.transform.gameObject.SetActive(true);
         }
+    }
+
+    public void TurnOnNextCheckpoint()
+    {
+        checkpointParent.GetChild(currentCheckPoint).gameObject.SetActive(true);
     }
 
     void RaceMode()

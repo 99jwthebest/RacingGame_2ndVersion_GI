@@ -47,7 +47,7 @@ public class AIController : MonoBehaviour
     public float[] gears;
 
     [HideInInspector] public int gearNum = 1;
-    public float KPH;
+    [SerializeField] float KPH;
     [HideInInspector] public float engineRPM;
     [HideInInspector] public bool reverse = false;
     private float smoothTime = 0.09f;
@@ -593,5 +593,16 @@ public class AIController : MonoBehaviour
     public void SetHandBrakeValue(float value)
     {
         handBrakeFrictionMultiplier = value;
+    }
+
+    public float GetKPH()
+    {
+        return KPH;
+    }
+
+    public float SetKPH(float value)
+    {
+        KPH = value;
+        return KPH;
     }
 }

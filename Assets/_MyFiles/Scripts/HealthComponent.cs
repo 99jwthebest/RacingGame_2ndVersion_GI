@@ -11,6 +11,8 @@ public class HealthComponent : MonoBehaviour
     controller_FV pController_FV;
     [SerializeField]
     Vector3 carCrashResetPosition;
+    [SerializeField]
+    Quaternion carCrashResetRotation;
     public int currentHealth;
     public int maxHealth;
     public Slider healthSlider;
@@ -25,12 +27,22 @@ public class HealthComponent : MonoBehaviour
     void Start()
     {
         SetMaxHealth(maxHealth);
+        cameraController = FindObjectOfType<CameraController>();
+        pController_FV = FindObjectOfType<controller_FV>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(pController_FV == null)
+        {
+            pController_FV = FindObjectOfType<controller_FV>();
+        }
+        if(cameraController == null)
+        {
+            cameraController = FindObjectOfType<CameraController>();
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -88,6 +100,7 @@ public class HealthComponent : MonoBehaviour
     public void CarDeath()
     {
         carCrashResetPosition = gameObject.transform.position;
+        carCrashResetRotation = gameObject.transform.rotation;
 
         cameraController.carHitCamShake.StopShake();
         
@@ -100,21 +113,12 @@ public class HealthComponent : MonoBehaviour
         else
             rb.AddRelativeTorque(gameObject.transform.position * crashForce, ForceMode.Impulse);
 
-        CameraLookAtCarCrash();
+        cameraController.CameraLookAtCarCrash(gameObject.transform);
+        cameraController.GetResetAICarPosition(carCrashResetPosition);
+        cameraController.GetResetAICarRotation(carCrashResetRotation);
+        cameraController.GetAIComponents(aiC, this);
 
     }
-
-    void CameraLookAtCarCrash()
-    {
-        //GameObject player = FindObjectOfType<CameraController>().gameObject;
-        Camera.main.GetComponent<CameraController>().CameraLookAtCarCrash(gameObject.transform);
-
-
-        //gameObject.transform.position = Vector3.Lerp(transform.position, driftCamConstraintLeft.transform.position, driftCamSpeed * Time.deltaTime);
-        //Camera.main.transform.LookAt(gameObject.transform.position);
-        //cameraShaker.StartShake();
-    }
-
 
     private IEnumerator RegenHealth()
     {

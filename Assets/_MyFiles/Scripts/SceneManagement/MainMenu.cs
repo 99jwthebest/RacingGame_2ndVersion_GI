@@ -8,7 +8,8 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        
+        GameplayStatics.instance.SetCarSelect(1);
+        GameplayStatics.instance.SetLevelSelect(1);
     }
 
     void Update()
@@ -18,7 +19,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(GameplayStatics.instance.GetLevelSelect());
     }
 
     public void QuitButton()

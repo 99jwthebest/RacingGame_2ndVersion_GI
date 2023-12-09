@@ -1,16 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
 public class CameraController : MonoBehaviour
 {
 
     public GameObject player;
-    private controller_FV pController_FV;
+    [SerializeField] controller_FV pController_FV;
     private InputManager inputManager;
     [SerializeField] 
     CameraShaker nitrousCamShake;
@@ -64,6 +60,14 @@ public class CameraController : MonoBehaviour
     public float enemyCrashFOV = 40f;
     public float crashSlowDownValue = 0.4f;
     public float crashDownForceValue = 400f;
+    [SerializeField]
+    Vector3 carAIResetPos;
+    [SerializeField]
+    Quaternion carAIResetRot;
+    [SerializeField]
+    AIController aIC;
+    [SerializeField]
+    HealthComponent healthC;
 
     private void Awake()
     {
@@ -85,12 +89,15 @@ public class CameraController : MonoBehaviour
 
 
         SetDefaultValues();
+        
+    }
+
+    private void Start()
+    {
     }
 
     private void FixedUpdate()
     {
-
-
 
     }
 
@@ -145,9 +152,9 @@ public class CameraController : MonoBehaviour
 
     void CameraMoveWhileTurning()
     {
-        if (inputManager.horizontal < 0)
+        if (inputManager.horizontal < 0 && inputManager.vertical == 0)
             gameObject.transform.position = Vector3.Lerp(transform.position, cameraNotAcceleratingTurnLeft.transform.position, speed * Time.deltaTime);
-        else if(inputManager.horizontal > 0)
+        else if(inputManager.horizontal > 0 && inputManager.vertical == 0)
             gameObject.transform.position = Vector3.Lerp(transform.position, cameraNotAcceleratingTurnRight.transform.position, speed * Time.deltaTime);
 
 
@@ -347,7 +354,42 @@ public class CameraController : MonoBehaviour
             timeForLookingAtCrash = timeForLookingAtCrashStart;
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, defaultFOV, smoothTime * Time.deltaTime);
             lookingAtCarCrash = false;
+
+            StartCoroutine(ResetAICarPosition(car));
         }
+    }
+
+    public void GetResetAICarPosition(Vector3 carResetPosition)
+    {
+        carAIResetPos = carResetPosition;
+    }
+
+    public void GetResetAICarRotation(Quaternion carResetRotation)
+    {
+        carAIResetRot = carResetRotation;
+    }
+
+    public IEnumerator ResetAICarPosition(Transform car)
+    {
+        yield return new WaitForSeconds(1);
+        car.position = carAIResetPos;
+        car.rotation = carAIResetRot;
+        car.GetComponent<Rigidbody>().Sleep();
+        ResetAIVehicle();
+        
+    }
+
+    public void GetAIComponents(AIController aiController, HealthComponent healthComponent)
+    {
+        aIC = aiController;
+        healthC = healthComponent;
+
+    }
+
+    public void ResetAIVehicle()
+    {
+        aIC.SetDownForceValue(100);
+        healthC.SetHealth(100);
     }
 
 

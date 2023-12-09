@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        pController_FV = FindObjectOfType<controller_FV>();
+        pPositionHolder = pController_FV.GetComponent<PositionHolder>();
+        zoneAbility = pController_FV.GetComponent<ZoneAbility>();
 
     }
 

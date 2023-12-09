@@ -13,9 +13,14 @@ public class CarPositions : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+
+    void Start()
+    {
         player = FindObjectOfType<controller_FV>().gameObject;
 
-        aiVehicles = GameObject.FindGameObjectsWithTag("AI"); 
+        aiVehicles = GameObject.FindGameObjectsWithTag("AI");
 
         allVehiclesRacing = new List<GameObject>();
 
@@ -23,8 +28,8 @@ public class CarPositions : MonoBehaviour
 
 
 
-        foreach (GameObject vehicle in aiVehicles) 
-        { 
+        foreach (GameObject vehicle in aiVehicles)
+        {
             allVehiclesRacing.Add(vehicle);
         }
         allVehiclesRacing.Add(player);

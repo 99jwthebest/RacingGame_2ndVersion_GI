@@ -220,7 +220,7 @@ public class controller_FV : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         if (wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded) // ask Li if this is okay or what's a better way to write this
             return true;

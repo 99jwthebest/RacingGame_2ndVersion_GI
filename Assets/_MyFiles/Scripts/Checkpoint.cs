@@ -24,6 +24,10 @@ public class Checkpoint : MonoBehaviour
         if(collider.transform.tag == "Player")
         {
             GameManager.instance.currentCheckPoint++;
+
+            if(GameManager.instance.currentCheckPoint < GameManager.instance.totalAmountCheckpoints)
+                GameManager.instance.TurnOnNextCheckpoint();    
+            
             this.gameObject.SetActive(false);
         }
     }

@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     public bool boosting;
     public bool rearViewCamera;
     public bool zoneActivated;
+    public bool resetVehicle;
 
     public TrackWaypoints waypoints;
     public Transform currentWaypoint;
@@ -87,6 +88,12 @@ public class InputManager : MonoBehaviour
             zoneActivated = true;
         else
             zoneActivated = false;
+
+        if(Input.GetKey(KeyCode.Tab))
+            resetVehicle = true;
+        else
+            resetVehicle = false;
+
 
         //if (Input.GetKeyDown(KeyCode.F))
         //    healthComp.CarDeath();
