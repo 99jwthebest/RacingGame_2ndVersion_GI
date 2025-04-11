@@ -1,4 +1,4 @@
-# Neon Paradigm
+# Need For Speed/Burnout Inspired Racing Game
 
 A hack-and-slash rhythm game where players must press inputs and land attacks on the beat to progress, using dynamic audio and custom shaders to enhance the experience.
 
