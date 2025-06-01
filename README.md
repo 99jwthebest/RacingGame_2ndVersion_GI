@@ -1,15 +1,36 @@
-# Need For Speed/Burnout Inspired Racing Game
+# 🎮  Need For Speed/Burnout Inspired Racing Game
 
-A hack-and-slash rhythm game where players must press inputs and land attacks on the beat to progress, using dynamic audio and custom shaders to enhance the experience.
+*A high-speed racing game that fuses the sleek style of modern Need for Speed titles with the adrenaline-fueled crash mechanics of Burnout. Players drift, boost, and takedown opponents in cinematic races packed with explosive collisions, tight turns, and dynamic AI challenges.*
 
-## Table of Contents
-- [Project Description](#project-description)
+---
 
-## Project Description
-This project is a senior thesis developed for the University of the Incarnate Word (UIW), where I created an engaging hack-and-slash rhythm game using Unreal Engine C++/Blueprint. In the game, the player must press inputs on the beat, and the player's attacks must land on the beat to maximize effectiveness. This creates a dynamic and immersive gameplay experience, where timing and rhythm are essential for success.
+## 📑 Table of Contents
 
-The game integrates FMOD for dynamic audio handling, syncing music with in-game events to enhance the overall experience. Players will feel immersed in the game world as their actions, from attacks to movement, are in sync with the soundtrack.
+- [Project Description](#-project-description)  
+- [Core Features](#-core-features)  
+- [Feature Breakdown](#-feature-breakdown)  
+- [Technology Used](#-technology-used)  
+- [Developer Role](#-developer-role)  
+- [Development Insights](#-development-insights)  
+- [Lessons Learned](#-lessons-learned)  
+- [Screenshots & Gameplay Preview](#%EF%B8%8F-screenshots--gameplay-preview)
 
-Additionally, I designed and implemented custom shaders to enhance visual effects, creating stunning visuals that complement the fast-paced, rhythmic gameplay. The combination of rhythm-based mechanics, responsive audio, and striking visual effects creates a unique and engaging experience for players.
 
-This project demonstrates a strong blend of technical and creative skills, including advanced gameplay programming, audio integration, and visual design within Unreal Engine.
+---
+
+## 📌 Project Description
+
+**Need for Speed/Burnout-Inspired Racing Game** is a solo-developed class project built in **Unity using C#**, later expanded into a full portfolio piece. The game blends high-speed racing inspired by *Need for Speed: Unbound* with aggressive crash mechanics drawn from *Burnout*. Players race against AI opponents through intense tracks, using drifting and takedowns to refill their nitro boost and gain an edge.
+
+Key gameplay features include **nitro boosting**, **physics-based takedowns**, **drift-based boost charging**, and a unique **“Zone” ability**—inspired by Franklin’s slowdown in *GTA V*—that temporarily slows time to allow precision cornering during tight turns.
+
+A core highlight is the **modular vehicle system**, which simulates a car’s engine behavior using **torque, RPM, gears, and acceleration physics**. This system was built from the ground up, enabling custom tuning and authentic car handling. The camera system mimics *Unbound*’s cinematic action cam, dynamically responding to turns, crashes, and speed surges.
+
+A full **HUD system** displays speed, gear, and boost status, while the **AI racing opponents** provide consistent challenge across lap-based gameplay. All major systems were programmed independently, with development tracked and versioned using **GitHub**.
+
+This project demonstrates a strong understanding of **physics programming**, **camera control**, **AI logic**, and **moment-to-moment gameplay design** in a racing context.
+
+
+
+
+
